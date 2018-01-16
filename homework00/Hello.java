@@ -21,5 +21,3 @@ public class Hello {
       System.out.println( "Hello, world!" );
    }
 }
-
-// This is a github integration test! And another one!
