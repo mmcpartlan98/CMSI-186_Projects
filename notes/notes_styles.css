@@ -1,0 +1,14 @@
+.background {
+  width: 90%;
+  border: 1px solid green;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text {
+  margin-left: 25px;
+}
+
+.topic-heading {
+  margin-left: 25px;
+}
