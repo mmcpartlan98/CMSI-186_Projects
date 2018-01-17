@@ -1,11 +1,15 @@
 var codeBlocks = document.getElementsByClassName("code"),
+splitChars = "( ) [ ] { } .".split(" "),
+splitPos = 0,
 keywords = [
   "public private static".split(" "),
   "void int byte long string".split(" ")
 ];
 
+console.log(splitChars);
+
 function getStyleClass(string) {
-  let workingString = string.toLowerCase(),
+  let workingString = string,
   hitPosition = {r: -1, c: -1};
   console.log("Checking workingString: " + workingString);
   for (let i = 0; i < keywords.length; i++) {
@@ -38,6 +42,27 @@ function getStyleClass(string) {
 
 for (let i = 0; i < codeBlocks.length; i++) {
   let currBlockText = codeBlocks[i].textContent.split(" ");
+  while (splitPos < splitChars.length) {
+    console.log("Splitting on: " + splitChars[splitPos]);
+    for (f = 0; f < currBlockText.length; f++) {
+      console.log("currBlockText: " + currBlockText);
+      console.log("currBlockText: " + currBlockText[f]);
+      let toAppend = currBlockText[f].split(splitChars[splitPos]);
+      for (appLen = 0; appLen < toAppend.length; appLen++) {
+        if (toAppend[appLen] === "") {
+          toAppend.splice(appLen, 1);
+        }
+      }
+      if (toAppend.length > 1) {
+        console.log("toAppend: " + toAppend);
+        let slicedFront = currBlockText.slice(0, f),
+        slicedBack = currBlockText.slice(f + 1, currBlockText.length);
+        currBlockText = slicedFront.concat(toAppend).concat(slicedBack);
+        break;
+      }
+    }
+    splitPos++;
+  }
   for (let e = currBlockText.length - 1; e >= 0; e--) {
     console.log("CurrBlockText: " + currBlockText[e] + "e: " + e);
     console.log(currBlockText);

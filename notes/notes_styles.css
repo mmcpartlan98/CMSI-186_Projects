@@ -13,6 +13,9 @@
   background-color: rgba(245, 220, 5, 0.14);
   border: 1px solid black;
   width: 90%;
+  display: inline-block;
+  margin-top: 15px;
+  margin-bottom: 15px;
   margin-left: auto;
   margin-right: auto;
 }
