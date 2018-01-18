@@ -3,24 +3,92 @@ splitChars = "( ) [ ] { } .".split(" "),
 splitPos = 0,
 keywords = [
   "public private static".split(" "),
-  "void int byte long string".split(" ")
+  "void int byte long string".split(" "),
+  "assert".split(" "),
+  "+= +== === == -= -== || && != !==".split(" "),
+  "\\n".split(" ") // Formatting
 ];
 
-console.log(splitChars);
+for (let i = 0; i < codeBlocks.length; i++) {
+  let currBlockText = processString(codeBlocks[i].textContent);
+  codeBlocks[i].textContent = "";
+  console.log(currBlockText);
+  for (let e = currBlockText.length - 1; e >= 0; e--) {
+    console.log("CurrBlockText: " + currBlockText[e] + "e: " + e);
+    let newDiv = document.createElement("span");
+    switch (getStyleClass(currBlockText[e])) {
+      case "scope":
+      newDiv.className = "code-element scope-keyword";
+      console.log("Assigning '" + currBlockText[e] + "' to scope-keyword");
+      break;
+
+      case "type":
+      newDiv.className = "code-element type-keyword";
+      console.log("Assigning '" + currBlockText[e] + "' to type-keyword");
+      break;
+
+      case "test":
+      newDiv.className = "code-element test-keyword";
+      console.log("Assigning '" + currBlockText[e] + "' to test-keyword");
+      break;
+
+      default:
+      newDiv.className = "code-element";
+    }
+    newDiv.textContent = currBlockText[e];
+    codeBlocks[i].prepend(newDiv);
+  }
+}
+
+function processString(string) {
+  let workingString = string,
+  stringReturn = [],
+  currentWord = "";
+  console.log("Pre-processed string: " + workingString);
+  for (let index = 0; index < workingString.length; index++) {
+    if ((workingString.charCodeAt(index) >= 97 && workingString.charCodeAt(index) <= 122) || (workingString.charCodeAt(index) >= 48 && workingString.charCodeAt(index) <= 57) || (workingString.charCodeAt(index) >= 65 && workingString.charCodeAt(index) <= 90)) {
+      currentWord = currentWord + workingString[index];
+    } else {
+      if (currentWord !== "") {
+        stringReturn.push(currentWord);
+        console.log("Pushing: " + currentWord);
+        currentWord = "";
+      }
+      switch (workingString.charCodeAt(index)) {
+
+        case 13:
+        stringReturn.push("\n");
+        break;
+
+        case 40:
+        case 41:
+        case 58:
+        case 59:
+        case 91:
+        case 93:
+        case 123:
+        case 125:
+        console.log("Pushing: " + workingString[index]);
+        stringReturn.push(workingString[index]);
+        break;
+      }
+    }
+  }
+  // IN binary, the MSB is used as the signed bit
+  // To convert a signed bit from binary to decimal, take the twos compliment then transfer that to decimal.
+  console.log("Post-processed string: " + stringReturn);
+  return stringReturn;
+}
 
 function getStyleClass(string) {
   let workingString = string,
   hitPosition = {r: -1, c: -1};
   console.log("Checking workingString: " + workingString);
   for (let i = 0; i < keywords.length; i++) {
-    console.log("Row: " + i + "/" + keywords.length);
     for (let e = 0; e < keywords[i].length; e++) {
-      console.log("Col: " + e + "/" + keywords[i].length);
-      console.log("Checking: i = " + i, ", e = " +e);
       if (workingString === keywords[i][e]) {
         hitPosition.r = i;
         hitPosition.c = e;
-
       }
     }
   }
@@ -34,54 +102,17 @@ function getStyleClass(string) {
     return "type";
     break;
 
+    case 2:
+    return "test";
+    break;
+
+    case 3:
+    console.log("Returning: " + workingString[hitPosition.r][hitPosition.c]);
+    return workingString[hitPosition.r][hitPosition.c];
+    break;
+
     default:
     return "unknown";
     console.log("Hit unknown code element at: " + hitPosition.r + ", " + hitPosition.c);
-  }
-}
-
-for (let i = 0; i < codeBlocks.length; i++) {
-  let currBlockText = codeBlocks[i].textContent.split(" ");
-  while (splitPos < splitChars.length) {
-    console.log("Splitting on: " + splitChars[splitPos]);
-    for (f = 0; f < currBlockText.length; f++) {
-      console.log("currBlockText: " + currBlockText);
-      console.log("currBlockText: " + currBlockText[f]);
-      let toAppend = currBlockText[f].split(splitChars[splitPos]);
-      for (appLen = 0; appLen < toAppend.length; appLen++) {
-        if (toAppend[appLen] === "") {
-          toAppend.splice(appLen, 1);
-        }
-      }
-      if (toAppend.length > 1) {
-        console.log("toAppend: " + toAppend);
-        let slicedFront = currBlockText.slice(0, f),
-        slicedBack = currBlockText.slice(f + 1, currBlockText.length);
-        currBlockText = slicedFront.concat(toAppend).concat(slicedBack);
-        break;
-      }
-    }
-    splitPos++;
-  }
-  for (let e = currBlockText.length - 1; e >= 0; e--) {
-    console.log("CurrBlockText: " + currBlockText[e] + "e: " + e);
-    console.log(currBlockText);
-    let newDiv = document.createElement("div");
-    switch (getStyleClass(currBlockText[e])) {
-      case "scope":
-      newDiv.className = "code-element scope-keyword";
-      console.log("Assigning '" + currBlockText[e] + "' to scope-keyword");
-      break;
-
-      case "type":
-      newDiv.className = "code-element type-keyword";
-      console.log("Assigning '" + currBlockText[e] + "' to type-keyword");
-      break;
-
-      default:
-      newDiv.className = "code-element";
-    }
-    newDiv.textContent = currBlockText[e];
-    codeBlocks[i].prepend(newDiv);
   }
 }

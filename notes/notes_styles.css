@@ -12,12 +12,14 @@
 .code {
   background-color: rgba(245, 220, 5, 0.14);
   border: 1px solid black;
-  width: 90%;
-  display: inline-block;
+  width: 80%;
+  display: block;
+  position: static;
   margin-top: 15px;
   margin-bottom: 15px;
   margin-left: auto;
   margin-right: auto;
+  padding: 15px;
 }
 
 .code-element {
@@ -29,6 +31,10 @@
 
 .scope-keyword {
   color: purple;
+}
+
+.test-keyword {
+  color: #3cb90f;
 }
 
 .type-keyword {
