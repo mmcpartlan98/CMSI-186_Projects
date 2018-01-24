@@ -137,8 +137,10 @@ public class CalendarStuff {
   * @return          int    -1/0/+1 if first date is less than/equal to/greater than second
   */
   public static int compareDate( long month1, long day1, long year1, long month2, long day2, long year2 ) {
-    long weightedCompare1 = year1*100 + month1 + day1/10;
-    long weightedCompare2 = year2*100 + month2 + day2/10;
+    double weightedCompare1 = (double)year1*100 + (double)month1 + ((double)day1/100);
+    double weightedCompare2 = (double)year2*100 + (double)month2 + ((double)day2/100);
+    // System.out.println(weightedCompare1);
+    // System.out.println(weightedCompare2);
     if (weightedCompare1 == weightedCompare2) {
       return 0;
     } else if (weightedCompare1 < weightedCompare2) {
@@ -184,47 +186,36 @@ public class CalendarStuff {
       case JANUARY:
       monthReturn = "January";
       break;
-
       case FEBRUARY:
       monthReturn = "February";
       break;
-
       case MARCH:
       monthReturn = "March";
       break;
-
       case APRIL:
       monthReturn = "April";
       break;
-
       case MAY:
       monthReturn = "May";
       break;
-
       case JUNE:
       monthReturn = "June";
       break;
-
       case JULY:
       monthReturn = "July";
       break;
-
       case AUGUST:
       monthReturn = "August";
       break;
-
       case SEPTEMBER:
       monthReturn = "September";
       break;
-
       case OCTOBER:
       monthReturn = "October";
       break;
-
       case NOVEMBER:
       monthReturn = "November";
       break;
-
       case DECEMBER:
       monthReturn = "December";
       break;
@@ -244,27 +235,21 @@ public class CalendarStuff {
       case SUNDAY:
       dayReturn = "Sunday";
       break;
-
       case MONDAY:
       dayReturn = "Monday";
       break;
-
       case TUESDAY:
       dayReturn = "Tuesday";
       break;
-
       case WEDNESDAY:
       dayReturn = "Wednesday";
       break;
-
       case THURSDAY:
       dayReturn = "Thursday";
       break;
-
       case FRIDAY:
       dayReturn = "Friday";
       break;
-
       case SATURDAY:
       dayReturn = "Saturday";
       break;
@@ -285,6 +270,54 @@ public class CalendarStuff {
   */
   public static long daysBetween( long month1, long day1, long year1, long month2, long day2, long year2 ) {
     long dayCount = 0;
+    int workingYear = 0;
+    int workingMonth = 0;
+    int workingDay = 0;
+    switch (compareDate(month1, day1, year1, month2, day2, year2)) {
+      case 1:
+      long temp = month1;
+      month1 = month2;
+      month2 = temp;
+      temp = day1;
+      day1 = day2;
+      day2 = temp;
+      temp = year1;
+      year1 = year2;
+      year2 = temp;
+      case -1:
+      // Dates are ordered, insert main logic
+      int yearsBetween = (int) year2 - (int) year1;
+      int[] daysPerYear = new int[yearsBetween + 1];
+      for (int yearIndex = 0; yearIndex < daysPerYear.length; yearIndex++) {
+        if (isLeapYear(year1 + yearIndex)) {
+          daysPerYear[yearIndex] = 1;
+        }
+        if (yearIndex != 0 && yearIndex != daysPerYear.length - 1) {
+          daysPerYear[yearIndex] += 365;
+        }
+      }
+      if (month1 == month2 && year1 == year2) {
+        daysPerYear[0] = ((int) day2 - (int) day1);
+      } else {
+        daysPerYear[0] += (int) days[(int) month1 - 1] - (int) day1;
+        daysPerYear[daysPerYear.length - 1] += (int) day2;
+        if (year1 != year2) {
+          for (int monthIndex = (int) month1; monthIndex < 12; monthIndex++) {
+            daysPerYear[0] += days[monthIndex];
+          }
+          for (int monthIndex = (int) month2 - 2; monthIndex >= 0; monthIndex--) {
+            daysPerYear[daysPerYear.length - 1] += days[monthIndex];
+          }
+        }
+      }
+      for (int index = 0; index < daysPerYear.length; index++) {
+        dayCount += daysPerYear[index];
+      }
+      break;
+
+      case 0:
+      return 0;
+    }
     return dayCount;
   }
 
