@@ -288,23 +288,30 @@ public class CalendarStuff {
       // Dates are ordered, insert main logic
       int yearsBetween = (int) year2 - (int) year1;
       int[] daysPerYear = new int[yearsBetween + 1];
-      for (int yearIndex = 0; yearIndex < daysPerYear.length; yearIndex++) {
+      for (int yearIndex = 1; yearIndex < daysPerYear.length - 1; yearIndex++) {
         if (isLeapYear(year1 + yearIndex)) {
           daysPerYear[yearIndex] = 1;
         }
-        if (yearIndex != 0 && yearIndex != daysPerYear.length - 1) {
-          daysPerYear[yearIndex] += 365;
-        }
+        daysPerYear[yearIndex] += 365;
       }
       if (month1 == month2 && year1 == year2) {
         daysPerYear[0] = ((int) day2 - (int) day1);
       } else {
+        if (isLeapYear(year1)) {
+          days[FEBRUARY] = 29;
+        }
         daysPerYear[0] += (int) days[(int) month1 - 1] - (int) day1;
         daysPerYear[daysPerYear.length - 1] += (int) day2;
         if (year1 != year2) {
           for (int monthIndex = (int) month1; monthIndex < 12; monthIndex++) {
             daysPerYear[0] += days[monthIndex];
           }
+          if (!isLeapYear(year2)) {
+            days[FEBRUARY] = 28;
+          } else {
+            days[FEBRUARY] = 29;
+          }
+          // Fix condition if month2 is JANUARY
           for (int monthIndex = (int) month2 - 2; monthIndex >= 0; monthIndex--) {
             daysPerYear[daysPerYear.length - 1] += days[monthIndex];
           }
@@ -318,6 +325,9 @@ public class CalendarStuff {
       case 0:
       return 0;
     }
+    // System.out.println();
+    // System.out.println("Returned: ");
+    // System.out.println(dayCount);
     return dayCount;
   }
 

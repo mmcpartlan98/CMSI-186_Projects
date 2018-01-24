@@ -315,6 +315,10 @@ public class CalendarStuffTester {
      try { System.out.println(    1 == CalendarStuff.daysBetween(  3, 16, 2005,  3, 15, 2005 ) ? "one day   " : "bad count" ); }
      catch( Exception e ) { System.out.println( false ); }
 
+     System.out.print( "   Counting 824 days between 10-1-2017 and 1-3-2020 : " );
+     try { System.out.println( 824 == CalendarStuff.daysBetween( 10, 1, 2017, 1, 3, 2020 ) ? "824 days"  : "bad count" ); }
+     catch( Exception e ) { System.out.println( false ); }
+
    }
 
   /**
