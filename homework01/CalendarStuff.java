@@ -270,9 +270,6 @@ public class CalendarStuff {
   */
   public static long daysBetween( long month1, long day1, long year1, long month2, long day2, long year2 ) {
     long dayCount = 0;
-    int workingYear = 0;
-    int workingMonth = 0;
-    int workingDay = 0;
     switch (compareDate(month1, day1, year1, month2, day2, year2)) {
       case 1:
       long temp = month1;
