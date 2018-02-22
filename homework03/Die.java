@@ -84,13 +84,14 @@ public class Die {
   * @return      The new number of sides, in case anyone is looking
   * @throws      IllegalArgumentException
   */
-  public void setSides( int sides ) {
+  public int setSides( int sides ) {
     if (sides <= MINIMUM_SIDES) {
       throw new IllegalArgumentException("Sides parameter out of range.");
     } else {
       this.sides = sides;
       this.pips = 0;
     }
+    return this.sides;
   }
 
   /**
@@ -144,6 +145,41 @@ public class Die {
     System.out.println("Roll returned: " + d.toString());
     System.out.println("Getting value: " + Integer.toString(d.getValue()));
     System.out.println("Static value retreval: " + toString(d));
+
+    try {
+      Die x = new Die(2);
+      System.out.println("Created die of value: " + x.toString());
+    } catch(IllegalArgumentException e) {
+      System.out.println("Caught exception: " + e.getMessage());
+    }
+
+    try {
+      Die x = new Die(-1);
+      System.out.println("Created die of value: " + x.toString());
+    } catch(IllegalArgumentException e) {
+      System.out.println("Caught exception: " + e.getMessage());
+    }
+
+    try {
+      Die x = new Die(3);
+      System.out.println("Created die of value: " + x.toString());
+    } catch(IllegalArgumentException e) {
+      System.out.println("Caught exception: " + e.getMessage());
+    }
+
+    try {
+      Die x = new Die(4);
+      System.out.println("Created die of value: " + x.toString());
+    } catch(IllegalArgumentException e) {
+      System.out.println("Caught exception: " + e.getMessage());
+    }
+
+    try {
+      Die x = new Die(5);
+      System.out.println("Created die of value: " + x.toString());
+    } catch(IllegalArgumentException e) {
+      System.out.println("Caught exception: " + e.getMessage());
+    }
   }
 
 }
