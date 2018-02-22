@@ -154,7 +154,7 @@ public class DiceSet {
   * @return Public Instance method that returns a String representation of the DiceSet instance
   */
   public String toString() {
-    String result = "";
+    String result = "\n";
     for (int i = 0; i < this.count; i++) {
       result = result + i + "." + this.ds[i].toString() + "\n";
     }
