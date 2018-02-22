@@ -56,7 +56,7 @@ public class DiceSet {
     this.count = count;
     this.sides = sides;
     this.keptDice = new boolean[this.count];
-    this.ds = new Die[this.sides];
+    this.ds = new Die[this.count];
     for (int i = 0; i < this.count; i++) {
       this.keptDice[i] = false;
       this.ds[i] = new Die(this.sides);
@@ -192,7 +192,7 @@ public class DiceSet {
   * A little test main to check things out
   */
   public static void main( String[] args ) {
-    DiceSet ds = new DiceSet(5, 6);
+    DiceSet ds = new DiceSet(15, 6);
     System.out.println("Created ds");
     DiceSet ds2 = new DiceSet(5, 6);
     System.out.println("Created ds2");

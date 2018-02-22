@@ -21,15 +21,21 @@ import java.io.IOException;
 
 public class DieRoller {
 
-  private static final int SIDES = 6;
-  private static final int NUMBER_OF_DICE = 5;
+  private static int SIDES = 6;
+  private static int NUMBER_OF_DICE = 5;
 
   public static void main( String args[] ) {
+    BufferedReader input = new BufferedReader( new InputStreamReader( System.in ) );
+    System.out.println("Ender number of sides (4 or more): ");
+    SIDES = getInputInteger(input, false);
+    System.out.println("Ender number of dice (greater than 0): ");
+    NUMBER_OF_DICE = getInputInteger(input, false);
+
     System.out.println( "\n   Welcome to the HighRoller!!\n" );
     showHelp();
     // This line uses the two classes to assemble an "input stream" for the user to type
     // text into the program
-    BufferedReader input = new BufferedReader( new InputStreamReader( System.in ) );
+    System.out.println("Generating DiceSet: " + SIDES + "." + NUMBER_OF_DICE);
     DiceSet ds = new DiceSet(NUMBER_OF_DICE, SIDES);
     int highScore = 0;
     while( true ) {
