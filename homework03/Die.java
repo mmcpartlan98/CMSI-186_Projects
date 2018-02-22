@@ -40,7 +40,7 @@ public class Die {
   */
   private int sides;
   private int pips;
-  private final int MINIMUM_SIDES = 4;
+  private final int MINIMUM_SIDES = 3;
 
   // public constructor:
   /**
@@ -80,6 +80,17 @@ public class Die {
   }
 
   /**
+  * Get the value of THIS dies nSides to return to the caller; note that the way
+  *  the count is determined is left as a design decision to the programmer
+  *  For example, what about a four-sided die - which face is considered its
+  *  "value"?
+  * @return the pip count of THIS die instance
+  */
+  public int getSides() {
+    return this.sides;
+  }
+
+  /**
   * @param  int  the number of sides to set/reset for this Die instance
   * @return      The new number of sides, in case anyone is looking
   * @throws      IllegalArgumentException
@@ -101,7 +112,7 @@ public class Die {
   public String toString() {
     String valuesOut = "";
     // Output format: SIDES.PIPS
-    valuesOut = Integer.toString(this.sides) + "." + Integer.toString(this.pips);
+    valuesOut = "[" + Integer.toString(this.pips) + "]";
     return valuesOut;
   }
 
@@ -112,7 +123,7 @@ public class Die {
   public static String toString( Die d ) {
     String valuesOut = "";
     // Output format: SIDES.PIPS
-    valuesOut = Integer.toString(d.sides) + "." + Integer.toString(d.pips);
+    valuesOut = "[" + Integer.toString(d.pips) + "]";
     return valuesOut;
   }
 
