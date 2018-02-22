@@ -54,9 +54,7 @@ public class DieRoller {
             ds.rollIndividual(getInputInteger(input, true));
           } else if (inputLine.equals("show")) {
             System.out.println("=======================");
-            for (int i = 0; i < NUMBER_OF_DICE; i++) {
-              System.out.println("Current value of die " + i + " is " + ds.getIndividual(i));
-            }
+            System.out.println("Current values are \n" + ds.toString());
             System.out.println("Current score is " + ds.sum());
             System.out.println("=======================");
           } else if (inputLine.equals("score")) {
