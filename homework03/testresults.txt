@@ -1,0 +1,860 @@
+Hello world from the Die class...
+Created die of value: [0]
+Roll returned: [1]
+Roll returned: [1]
+Getting value: 1
+Created die of value: [0]
+Roll returned: [3]
+Roll returned: [4]
+Roll returned: [9]
+Roll returned: [8]
+Roll returned: [11]
+Roll returned: [12]
+Getting value: 12
+Static value retreval: [12]
+Caught exception: nSides parameter out of range.
+Caught exception: nSides parameter out of range.
+Caught exception: nSides parameter out of range.
+Created die of value: [0]
+Created die of value: [0]
+Created ds
+Created ds2
+ds Sum: 0
+Rolled die 0: 4
+Rolled die 1: 6
+Rolled die 2: 6
+Rolled die 3: 6
+Rolled die 4: 4
+Rolled die 5: 5
+Rolled die 6: 3
+Rolled die 7: 5
+Rolled die 8: 1
+Rolled die 9: 5
+Rolled die 10: 4
+Rolled die 11: 3
+Rolled die 12: 1
+Rolled die 13: 4
+Rolled die 14: 1
+ds Sum: 58
+ds[3]: 6
+Rolled die 2: 6
+ds[3]: 6
+ds Sum: 58
+Die 0: 4
+Die 1: 6
+Die 2: 6
+Die 3: 6
+Die 4: 4
+Die 5: 5
+Die 6: 3
+Die 7: 5
+Die 8: 1
+Die 9: 5
+Die 10: 4
+Die 11: 3
+Die 12: 1
+Die 13: 4
+Die 14: 1
+Holding die 4
+Rolled die 0: 2
+Rolled die 1: 1
+Rolled die 2: 5
+Rolled die 3: 6
+Held die 4: 4
+Rolled die 5: 4
+Rolled die 6: 1
+Rolled die 7: 4
+Rolled die 8: 4
+Rolled die 9: 6
+Rolled die 10: 3
+Rolled die 11: 3
+Rolled die 12: 1
+Rolled die 13: 6
+Rolled die 14: 3
+Die 0: 2
+Die 1: 1
+Die 2: 5
+Die 3: 6
+Die 4: 4
+Die 5: 4
+Die 6: 1
+Die 7: 4
+Die 8: 4
+Die 9: 6
+Die 10: 3
+Die 11: 3
+Die 12: 1
+Die 13: 6
+Die 14: 3
+Rolled die 0: 5
+Rolled die 1: 6
+Rolled die 2: 2
+Rolled die 3: 4
+Rolled die 4: 4
+Rolled die 5: 6
+Rolled die 6: 3
+Rolled die 7: 4
+Rolled die 8: 3
+Rolled die 9: 5
+Rolled die 10: 4
+Rolled die 11: 1
+Rolled die 12: 2
+Rolled die 13: 2
+Rolled die 14: 2
+Die 0: 5
+Die 1: 6
+Die 2: 2
+Die 3: 4
+Die 4: 4
+Die 5: 6
+Die 6: 3
+Die 7: 4
+Die 8: 3
+Die 9: 5
+Die 10: 4
+Die 11: 1
+Die 12: 2
+Die 13: 2
+Die 14: 2
+
+0.[5]
+1.[6]
+2.[2]
+3.[4]
+4.[4]
+5.[6]
+6.[3]
+7.[4]
+8.[3]
+9.[5]
+10.[4]
+11.[1]
+12.[2]
+13.[2]
+14.[2]
+
+isIdentical: false
+TESTING THE DIE CLASS: TEST CONSTRUCTOR FOR INVALID NUMBERS OF SIDES:
+   Too few sides requested to constructor....
+   Too few sides requested to constructor....
+   Too few sides requested to constructor....
+   Too few sides requested to constructor....
+TESTING THE DIE CLASS: TESTS ON 4-SIDED DIE:
+   roll() test for 4 sided die:
+   You rolled a 1
+   You rolled a 1
+   You rolled a 1
+   You rolled a 4
+   You rolled a 1
+   Current value is: [1]
+TESTING THE DIE CLASS: TESTS ON 5-SIDED DIE:
+   roll() test for 5 sided die:
+   You rolled a 5
+   You rolled a 3
+   You rolled a 2
+   You rolled a 2
+   You rolled a 4
+   Current value is: [4]
+TESTING THE DIE CLASS: TESTS ON 6-SIDED DIE:
+   roll() test for 6 sided die:
+   You rolled a 5
+   You rolled a 5
+   You rolled a 5
+   You rolled a 4
+   You rolled a 1
+   Current value is: [1]
+TESTING THE DIE CLASS: TESTS ON 7-SIDED DIE:
+   roll() test for 7 sided die:
+   You rolled a 2
+   You rolled a 4
+   You rolled a 3
+   You rolled a 6
+   You rolled a 5
+   Current value is: [5]
+TESTING THE DIE CLASS: TESTS ON 8-SIDED DIE:
+   roll() test for 8 sided die:
+   You rolled a 3
+   You rolled a 1
+   You rolled a 1
+   You rolled a 2
+   You rolled a 2
+   Current value is: [2]
+   Current die side count is: 8
+TESTING THE DIE CLASS: TESTS ON 11-SIDED DIE USING NEW SIDE COUNT:
+   Resetting - current die side count is now: 11
+   Rolling with new side count --
+      You rolled a 10
+      You rolled a 5
+      You rolled a 2
+      You rolled a 7
+      You rolled a 4
+TESTING THE DIE CLASS: TESTS ON 17-SIDED DIE USING NEW SIDE COUNT:
+   Resetting - current die side count is now: 17
+   Rolling with new side count --
+      You rolled a 4
+      current value is: 4
+TESTING THE DIE CLASS: TESTS ON 111-SIDED DIE USING NEW SIDE COUNT:
+   Resetting - current die side count is now: 111
+   Rolling with new side count --
+      You rolled a 110
+      current value is: 110
+......End of Die Class Testing.....
+
+
+TESTING THE DICESET CLASS: TEST CONSTRUCTOR FOR 3 SIX-SIDED DICE:
+  DiceSet: 3 dice, six sided - ds36:
+      initialized ds36 contents             :
+0.[0]
+1.[0]
+2.[0]
+
+Rolled die 0: 4
+Rolled die 1: 1
+Rolled die 2: 1
+      after collective roll ds36 contents   :
+0.[4]
+1.[1]
+2.[1]
+
+Rolled die 2: 3
+      after individual roll(2) ds36 contents:
+0.[4]
+1.[1]
+2.[3]
+
+      sum of dice values is: 8
+   Re-rolling all dice
+Rolled die 0: 3
+Rolled die 1: 6
+Rolled die 2: 1
+      after collective roll ds36 contents   :
+0.[3]
+1.[6]
+2.[1]
+
+Rolled die 2: 5
+      after individual roll(2) ds36 contents:
+0.[3]
+1.[6]
+2.[5]
+
+      sum of dice values is                 : 14
+   Test of getIndividual():
+      value of die at index 0: 3
+      value of die at index 1: 6
+      value of die at index 2: 5
+TESTING THE DICESET CLASS: TEST CONSTRUCTOR FOR 6 NINE-SIDED DICE:
+   DiceSet: 6 dice, nine sided - ds69:
+      initialized ds36 contents             :
+0.[0]
+1.[0]
+2.[0]
+3.[0]
+4.[0]
+5.[0]
+
+Rolled die 0: 8
+Rolled die 1: 9
+Rolled die 2: 7
+Rolled die 3: 2
+Rolled die 4: 6
+Rolled die 5: 8
+      after collective roll ds69 contents   :
+0.[8]
+1.[9]
+2.[7]
+3.[2]
+4.[6]
+5.[8]
+
+Rolled die 2: 1
+      after individual roll(2) ds69 contents:
+0.[8]
+1.[9]
+2.[1]
+3.[2]
+4.[6]
+5.[8]
+
+      sum of dice values is                 : 34
+   Re-rolling all dice
+Rolled die 0: 8
+Rolled die 1: 6
+Rolled die 2: 8
+Rolled die 3: 3
+Rolled die 4: 2
+Rolled die 5: 8
+      after collective roll ds69 contents   :
+0.[8]
+1.[6]
+2.[8]
+3.[3]
+4.[2]
+5.[8]
+
+Rolled die 3: 2
+      after individual roll(3) ds69 contents:
+0.[8]
+1.[6]
+2.[8]
+3.[2]
+4.[2]
+5.[8]
+
+      sum of dice values is                 : 34
+   Test of getIndividual():
+      value of die at index 0: 8
+      value of die at index 1: 6
+      value of die at index 2: 8
+      value of die at index 3: 2
+      value of die at index 4: 2
+      value of die at index 5: 8
+TESTING THE DICESET CLASS: TEST CONSTRUCTOR FOR 9 SEVENTEEN-SIDED DICE:
+   DiceSet: 9 dice, 17 sided - ds917:
+      initialized ds36 contents              :
+0.[0]
+1.[0]
+2.[0]
+3.[0]
+4.[0]
+5.[0]
+6.[0]
+7.[0]
+8.[0]
+
+Rolled die 0: 2
+Rolled die 1: 10
+Rolled die 2: 12
+Rolled die 3: 3
+Rolled die 4: 14
+Rolled die 5: 10
+Rolled die 6: 17
+Rolled die 7: 8
+Rolled die 8: 5
+      after collective roll ds917 contents   :
+0.[2]
+1.[10]
+2.[12]
+3.[3]
+4.[14]
+5.[10]
+6.[17]
+7.[8]
+8.[5]
+
+Rolled die 6: 1
+      after individual roll(6) ds917 contents:
+0.[2]
+1.[10]
+2.[12]
+3.[3]
+4.[14]
+5.[10]
+6.[1]
+7.[8]
+8.[5]
+
+      sum of dice values is                  : 65
+   Re-rolling all dice
+Rolled die 0: 6
+Rolled die 1: 10
+Rolled die 2: 6
+Rolled die 3: 17
+Rolled die 4: 8
+Rolled die 5: 15
+Rolled die 6: 7
+Rolled die 7: 15
+Rolled die 8: 13
+      after collective roll ds917 contents   :
+0.[6]
+1.[10]
+2.[6]
+3.[17]
+4.[8]
+5.[15]
+6.[7]
+7.[15]
+8.[13]
+
+Rolled die 8: 1
+      after individual roll(8) ds69 contents :
+0.[6]
+1.[10]
+2.[6]
+3.[17]
+4.[8]
+5.[15]
+6.[7]
+7.[15]
+8.[1]
+
+      sum of dice values is                  : 85
+   Test of getIndividual():
+      value of die at index 0: 6
+      value of die at index 1: 10
+      value of die at index 2: 6
+      value of die at index 3: 17
+      value of die at index 4: 8
+      value of die at index 5: 15
+      value of die at index 6: 7
+      value of die at index 7: 15
+      value of die at index 8: 1
+TESTING THE DICESET CLASS: TEST 'isIdentical()' FOR 9 SEVENTEEN-SIDED DICE:
+   Test of isIndentical():
+      Test of ds917 against ds69   : false
+      Test of ds917 against itself : true
+TESTING THE DICESET CLASS: TEST 'isIdentical()' FOR NEW SET OF 9 SEVENTEEN-SIDED DICE:
+Rolled die 0: 6
+Rolled die 1: 14
+Rolled die 2: 12
+Rolled die 3: 13
+Rolled die 4: 9
+Rolled die 5: 11
+Rolled die 6: 7
+Rolled die 7: 14
+Rolled die 8: 12
+Rolled die 0: 15
+Rolled die 1: 8
+Rolled die 2: 5
+Rolled die 3: 9
+Rolled die 4: 14
+Rolled die 5: 14
+Rolled die 6: 5
+Rolled die 7: 15
+Rolled die 8: 11
+   DiceSet ds917 contents       :
+0.[6]
+1.[14]
+2.[12]
+3.[13]
+4.[9]
+5.[11]
+6.[7]
+7.[14]
+8.[12]
+
+      New DiceSet ds2_917 contents :
+0.[15]
+1.[8]
+2.[5]
+3.[9]
+4.[14]
+5.[14]
+6.[5]
+7.[15]
+8.[11]
+
+      Test of ds917 against ds2_917: false
+......End of DiceSet Class Testing.....
+
+
+Ender number of sides (4 or more): 
+Input: Ender number of dice (greater than 0): 
+Input: 
+   Welcome to the HighRoller!!
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++ AVAILABLE COMMANDS ++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++ Use 'roll' to roll all dice.                   ++
+++ Use 'rollInd' to roll all dice.                ++
+++ Use 'score' to see the sum of all dice.        ++
+++ Use 'save' to save score as high score.        ++
+++ Use 'high' to see the current high score.      ++
+++ Use 'quit' to exit the program.                ++
+++ Use 'hold' to keep a die's value.              ++
+++ Use 'release' to keep a die's value.           ++
+++ Use 'show' to show the current dice values.    ++
+++ Use 'load' to load a previous high score.      ++
+++ Use 'help' to repeat this menu.                ++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+Generating DiceSet: 6.5
+>> =======================
+Rolled die 0: 3
+Rolled die 1: 1
+Rolled die 2: 4
+Rolled die 3: 4
+Rolled die 4: 6
+=======================
+>> =======================
+Rolled die 0: 6
+Rolled die 1: 4
+Rolled die 2: 2
+Rolled die 3: 5
+Rolled die 4: 2
+=======================
+>> =======================
+Rolled die 0: 1
+Rolled die 1: 6
+Rolled die 2: 3
+Rolled die 3: 5
+Rolled die 4: 6
+=======================
+>> Input: Rolled die 3: 6
+>> Input: Index out of bounds.
+Input: Invalid character at letter 1.
+Invalid character at letter 2.
+Invalid character at letter 3.
+Invalid character at letter 4.
+Invalid character at letter 5.
+Invalid character at letter 6.
+Invalid character at letter 7.
+Input: Rolled die 2: 5
+>> =======================
+Current score is 24
+=======================
+>> Saved 24 as high score.
+>> =======================
+High score is 24
+=======================
+>> =======================
+Rolled die 0: 1
+Rolled die 1: 5
+Rolled die 2: 3
+Rolled die 3: 4
+Rolled die 4: 2
+=======================
+>> =======================
+Rolled die 0: 6
+Rolled die 1: 1
+Rolled die 2: 2
+Rolled die 3: 6
+Rolled die 4: 1
+=======================
+>> Input: Index out of bounds.
+Input: Invalid character at letter 1.
+Invalid character at letter 2.
+Invalid character at letter 3.
+Invalid character at letter 4.
+Invalid character at letter 5.
+Invalid character at letter 6.
+Invalid character at letter 7.
+Input: Rolled die 1: 2
+>> =======================
+Current score is 17
+=======================
+>> Current score is less than high score.
+>> =======================
+High score is 24
+=======================
+>> Ender number of sides (4 or more): 
+Input: Ender number of dice (greater than 0): 
+Input: 
+   Welcome to the HighRoller!!
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++ AVAILABLE COMMANDS ++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++ Use 'roll' to roll all dice.                   ++
+++ Use 'rollInd' to roll all dice.                ++
+++ Use 'score' to see the sum of all dice.        ++
+++ Use 'save' to save score as high score.        ++
+++ Use 'high' to see the current high score.      ++
+++ Use 'quit' to exit the program.                ++
+++ Use 'hold' to keep a die's value.              ++
+++ Use 'release' to keep a die's value.           ++
+++ Use 'show' to show the current dice values.    ++
+++ Use 'load' to load a previous high score.      ++
+++ Use 'help' to repeat this menu.                ++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+Generating DiceSet: 17.11
+>> =======================
+Rolled die 0: 11
+Rolled die 1: 9
+Rolled die 2: 14
+Rolled die 3: 10
+Rolled die 4: 4
+Rolled die 5: 1
+Rolled die 6: 11
+Rolled die 7: 16
+Rolled die 8: 11
+Rolled die 9: 11
+Rolled die 10: 8
+=======================
+>> =======================
+Rolled die 0: 14
+Rolled die 1: 8
+Rolled die 2: 3
+Rolled die 3: 4
+Rolled die 4: 16
+Rolled die 5: 14
+Rolled die 6: 1
+Rolled die 7: 4
+Rolled die 8: 10
+Rolled die 9: 10
+Rolled die 10: 3
+=======================
+>> =======================
+Rolled die 0: 11
+Rolled die 1: 9
+Rolled die 2: 3
+Rolled die 3: 13
+Rolled die 4: 12
+Rolled die 5: 9
+Rolled die 6: 17
+Rolled die 7: 14
+Rolled die 8: 11
+Rolled die 9: 16
+Rolled die 10: 9
+=======================
+>> Input: Index out of bounds.
+Input: Invalid character at letter 1.
+Invalid character at letter 2.
+Invalid character at letter 3.
+Invalid character at letter 4.
+Invalid character at letter 5.
+Invalid character at letter 6.
+Invalid character at letter 7.
+Input: Rolled die 1: 15
+>> Input: Rolled die 7: 16
+>> =======================
+Current score is 132
+=======================
+>> Saved 132 as high score.
+>> =======================
+High score is 132
+=======================
+>> =======================
+Rolled die 0: 12
+Rolled die 1: 7
+Rolled die 2: 5
+Rolled die 3: 17
+Rolled die 4: 5
+Rolled die 5: 14
+Rolled die 6: 14
+Rolled die 7: 11
+Rolled die 8: 9
+Rolled die 9: 11
+Rolled die 10: 13
+=======================
+>> =======================
+Rolled die 0: 15
+Rolled die 1: 3
+Rolled die 2: 5
+Rolled die 3: 12
+Rolled die 4: 13
+Rolled die 5: 2
+Rolled die 6: 3
+Rolled die 7: 1
+Rolled die 8: 14
+Rolled die 9: 17
+Rolled die 10: 5
+=======================
+>> Input: Rolled die 5: 4
+>> Input: Rolled die 3: 15
+>> =======================
+Current score is 95
+=======================
+>> Current score is less than high score.
+>> =======================
+High score is 132
+=======================
+>> Ender number of sides (4 or more): 
+Input: Ender number of dice (greater than 0): 
+Input: 
+   Welcome to the HighRoller!!
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++ AVAILABLE COMMANDS ++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++ Use 'roll' to roll all dice.                   ++
+++ Use 'rollInd' to roll all dice.                ++
+++ Use 'score' to see the sum of all dice.        ++
+++ Use 'save' to save score as high score.        ++
+++ Use 'high' to see the current high score.      ++
+++ Use 'quit' to exit the program.                ++
+++ Use 'hold' to keep a die's value.              ++
+++ Use 'release' to keep a die's value.           ++
+++ Use 'show' to show the current dice values.    ++
+++ Use 'load' to load a previous high score.      ++
+++ Use 'help' to repeat this menu.                ++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+Generating DiceSet: 4.29
+>> =======================
+Rolled die 0: 2
+Rolled die 1: 2
+Rolled die 2: 3
+Rolled die 3: 4
+Rolled die 4: 1
+Rolled die 5: 4
+Rolled die 6: 1
+Rolled die 7: 2
+Rolled die 8: 4
+Rolled die 9: 2
+Rolled die 10: 3
+Rolled die 11: 3
+Rolled die 12: 3
+Rolled die 13: 1
+Rolled die 14: 2
+Rolled die 15: 1
+Rolled die 16: 1
+Rolled die 17: 4
+Rolled die 18: 2
+Rolled die 19: 1
+Rolled die 20: 1
+Rolled die 21: 2
+Rolled die 22: 4
+Rolled die 23: 3
+Rolled die 24: 3
+Rolled die 25: 2
+Rolled die 26: 3
+Rolled die 27: 2
+Rolled die 28: 4
+=======================
+>> =======================
+Rolled die 0: 3
+Rolled die 1: 3
+Rolled die 2: 3
+Rolled die 3: 3
+Rolled die 4: 4
+Rolled die 5: 2
+Rolled die 6: 3
+Rolled die 7: 3
+Rolled die 8: 4
+Rolled die 9: 3
+Rolled die 10: 2
+Rolled die 11: 3
+Rolled die 12: 1
+Rolled die 13: 2
+Rolled die 14: 1
+Rolled die 15: 3
+Rolled die 16: 3
+Rolled die 17: 4
+Rolled die 18: 1
+Rolled die 19: 3
+Rolled die 20: 1
+Rolled die 21: 2
+Rolled die 22: 1
+Rolled die 23: 2
+Rolled die 24: 2
+Rolled die 25: 2
+Rolled die 26: 3
+Rolled die 27: 2
+Rolled die 28: 2
+=======================
+>> =======================
+Rolled die 0: 2
+Rolled die 1: 1
+Rolled die 2: 1
+Rolled die 3: 3
+Rolled die 4: 1
+Rolled die 5: 2
+Rolled die 6: 3
+Rolled die 7: 3
+Rolled die 8: 2
+Rolled die 9: 1
+Rolled die 10: 2
+Rolled die 11: 3
+Rolled die 12: 2
+Rolled die 13: 1
+Rolled die 14: 1
+Rolled die 15: 2
+Rolled die 16: 3
+Rolled die 17: 2
+Rolled die 18: 2
+Rolled die 19: 1
+Rolled die 20: 3
+Rolled die 21: 4
+Rolled die 22: 4
+Rolled die 23: 4
+Rolled die 24: 3
+Rolled die 25: 3
+Rolled die 26: 2
+Rolled die 27: 4
+Rolled die 28: 4
+=======================
+>> Input: Index out of bounds.
+Input: Invalid character at letter 1.
+Invalid character at letter 2.
+Invalid character at letter 3.
+Invalid character at letter 4.
+Invalid character at letter 5.
+Invalid character at letter 6.
+Invalid character at letter 7.
+Input: Rolled die 1: 3
+>> Input: Rolled die 17: 4
+>> =======================
+Current score is 73
+=======================
+>> Saved 73 as high score.
+>> =======================
+High score is 73
+=======================
+>> =======================
+Rolled die 0: 4
+Rolled die 1: 4
+Rolled die 2: 1
+Rolled die 3: 1
+Rolled die 4: 1
+Rolled die 5: 4
+Rolled die 6: 3
+Rolled die 7: 4
+Rolled die 8: 2
+Rolled die 9: 1
+Rolled die 10: 3
+Rolled die 11: 4
+Rolled die 12: 3
+Rolled die 13: 1
+Rolled die 14: 3
+Rolled die 15: 4
+Rolled die 16: 3
+Rolled die 17: 3
+Rolled die 18: 2
+Rolled die 19: 4
+Rolled die 20: 4
+Rolled die 21: 4
+Rolled die 22: 1
+Rolled die 23: 4
+Rolled die 24: 2
+Rolled die 25: 2
+Rolled die 26: 4
+Rolled die 27: 4
+Rolled die 28: 3
+=======================
+>> =======================
+Rolled die 0: 3
+Rolled die 1: 2
+Rolled die 2: 3
+Rolled die 3: 2
+Rolled die 4: 1
+Rolled die 5: 1
+Rolled die 6: 1
+Rolled die 7: 3
+Rolled die 8: 4
+Rolled die 9: 3
+Rolled die 10: 1
+Rolled die 11: 2
+Rolled die 12: 4
+Rolled die 13: 3
+Rolled die 14: 3
+Rolled die 15: 3
+Rolled die 16: 3
+Rolled die 17: 2
+Rolled die 18: 2
+Rolled die 19: 1
+Rolled die 20: 3
+Rolled die 21: 1
+Rolled die 22: 4
+Rolled die 23: 1
+Rolled die 24: 4
+Rolled die 25: 1
+Rolled die 26: 2
+Rolled die 27: 2
+Rolled die 28: 4
+=======================
+>> Input: Rolled die 19: 4
+>> Input: Rolled die 23: 2
+>> =======================
+Current score is 73
+=======================
+>> Saved 73 as high score.
+>> =======================
+High score is 73
+=======================
+>> 
