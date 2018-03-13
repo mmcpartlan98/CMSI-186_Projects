@@ -59,10 +59,10 @@ public class Clock {
     this.elapsedTime += this.timeSlice;
 
     this.totalSeconds += this.timeSlice;
-    this.minuteAngle = (this.minuteAngle + this.minuteIncrement) % 360;
-    this.hourAngle = (this.hourAngle + this.hourIncrement) % 360;
+    this.minuteAngle = (this.minuteAngle + this.minuteIncrement) % 360.000;
+    this.hourAngle = (this.hourAngle + this.hourIncrement) % 360.000;
     this.innerAngle = Math.abs(this.hourAngle - this.minuteAngle);
-    this.outerAngle = Math.abs(this.minuteAngle - this.hourAngle);
+    this.outerAngle = Math.abs(this.innerAngle - 360);
     // System.out.println("innerAngle: " + innerAngle + " at " + this.toString());
     return this.innerAngle;
   }
@@ -77,6 +77,11 @@ public class Clock {
     double angleIn = Double.parseDouble(argValue);
     if (angleIn > 360 || angleIn < 0) {
       throw new NumberFormatException("Invalid angle argument!");
+    }
+    if (angleIn == 180) {
+      angleIn = 0;
+    } else if (angleIn > 180) {
+      angleIn = Math.abs(angleIn - 360);
     }
     this.angle = angleIn;
     System.out.println("Setting angle to: " + this.angle);
@@ -129,7 +134,7 @@ public class Clock {
   */
   public double getHandAngle() {
     double handAngle = 0;
-    if (this.innerAngle <= this.outerAngle) {
+    if (this.innerAngle < this.outerAngle) {
       // handAngle = Math.round(this.innerAngle*100.00)/100.00;
       handAngle = this.innerAngle;
     }
