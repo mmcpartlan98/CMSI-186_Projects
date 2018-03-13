@@ -32,7 +32,7 @@ public class Clock {
 
   private double totalSeconds = 0;
   private double elapsedTime = 0;
-  public double angle = 0;
+  private double angle = 0;
   private double minuteAngle = 0;
   private double hourAngle = 0;
   private double innerAngle = 0;
@@ -84,7 +84,6 @@ public class Clock {
       angleIn = Math.abs(angleIn - 360);
     }
     this.angle = angleIn;
-    System.out.println("Setting angle to: " + this.angle);
     return angleIn;
   }
 
@@ -108,7 +107,6 @@ public class Clock {
     this.timeSlice = slice;
     this.minuteIncrement = MINUTE_HAND_DEGREES_PER_SECOND * this.timeSlice;
     this.hourIncrement = HOUR_HAND_DEGREES_PER_SECOND * this.timeSlice;
-    System.out.println("Setting slice to: " + this.timeSlice);
     return slice;
   }
 
@@ -154,6 +152,22 @@ public class Clock {
   */
   public double getTotalSeconds() {
     return this.totalSeconds;
+  }
+
+  /**
+  *  Method to fetch the assigned timeSlice
+  *  @return double-precision value the total seconds private variable
+  */
+  public double getTimeSlice() {
+    return this.timeSlice;
+  }
+
+  /**
+  *  Method to fetch the assigned angle
+  *  @return double-precision value the total seconds private variable
+  */
+  public double getSoughtAngle() {
+    return this.angle;
   }
 
   /**

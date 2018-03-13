@@ -71,14 +71,16 @@ public class ClockSolver {
    public static void main( String args[] ) {
       ClockSolver cs = new ClockSolver();
       Clock clock    = new Clock();
-      System.out.println("AnglePre: " + clock.angle);
       cs.handleInitialArguments(args, clock);
-      System.out.println("Tolerance: " + cs.tolerance);
+      System.out.println("\n\nRunning simulation with: ");
+      System.out.println("Setting angle to: " + clock.getSoughtAngle());
+      System.out.println("Setting slice to: " + clock.getTimeSlice());
+      System.out.println("Tolerance: " + EPSILON_VALUE);
       cs.tolerance = EPSILON_VALUE * cs.angle;
       System.out.println("-------------");
       while(clock.getTotalSeconds() <= 43200) {
         // cs.tolerance = EPSILON_VALUE * clock.getHandAngle();
-         if (Math.abs(clock.getHandAngle() - clock.angle) <= EPSILON_VALUE) {
+         if (Math.abs(clock.getHandAngle() - clock.getSoughtAngle()) <= EPSILON_VALUE) {
            System.out.println(clock.toString());
          }
          // System.out.println("handAngle: " + clock.getHandAngle() + " at " + clock.toString());
