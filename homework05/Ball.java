@@ -20,6 +20,7 @@ import java.lang.Math;
 public class Ball {
   /**
   *  Class field definintions go here
+  *  ALL CLASS DISTANCE VALUES ARE IN FEET
   */
   private static final double DEFAULT_TIME_SLICE_IN_SECONDS = 1.0;
 
@@ -33,11 +34,12 @@ public class Ball {
   /**
   *  Constructor goes here
   */
-  public Ball(double xPosI, double yPosI, double xVelI, double yVelI) {
+  public Ball(double xPosI, double yPosI, double xVelI, double yVelI, double timeSlice) {
     this.xPos = xPosI;
     this.yPos = yPosI;
     this.xVel = xVelI;
     this.yVel = yVelI;
+    this.timeSlice = timeSlice;
   }
 
   /**
@@ -66,6 +68,13 @@ public class Ball {
   }
 
   /**
+  *  @return double-precision value of the yPosition
+  */
+  public double getTimeSlice() {
+    return this.timeSlice;
+  }
+
+  /**
   *  Method to set the ballID.
   */
   public void setBallID(int ballNum) {
@@ -85,6 +94,20 @@ public class Ball {
   */
   public double getYPos() {
     return this.yPos;
+  }
+
+  /**
+  *  @return double-precision value of the yPosition
+  */
+  public double getXVel() {
+    return this.xVel;
+  }
+
+  /**
+  *  @return double-precision value of the yPosition
+  */
+  public double getYVel() {
+    return this.yVel;
   }
 
   /**
@@ -108,7 +131,7 @@ public class Ball {
     System.out.println( "\nBALL CLASS TESTER PROGRAM\n" +
     "--------------------------\n" );
     System.out.println( "  Creating a new ball: " );
-    Ball ball = new Ball(0, 0, 10, 100);
+    Ball ball = new Ball(0, 0, 10, 100, 0.01);
     ball.setBallID(1);
     ball.setTimeSlice(0.01);
     System.out.println("New ball created: " + ball.toString());
