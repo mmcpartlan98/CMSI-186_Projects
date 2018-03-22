@@ -23,11 +23,9 @@ public class SoccerSim {
   *  Class field definintions go here
   */
   private static final double DEFAULT_TIME_SLICE_SECONDS = 1;
-  private static final double EPSILON_VALUE = 0.1;      // small value for double-precision comparisons
 
-  private double collisionRadius = 2 * (4.45 / 12);
-  private double timeSlice = DEFAULT_TIME_SLICE_SECONDS;
-  private double angle = 0;
+  private static double collisionRadius = 2 * (4.45 / 12);
+  private static double timeSlice = DEFAULT_TIME_SLICE_SECONDS;
 
   /**
   *  Constructor
@@ -50,7 +48,7 @@ public class SoccerSim {
     int ballCounter = 0;
     Ball ballSack[] = new Ball[Math.round((args.length - 1) / 4)];
 
-    if(args.length % 4 != 1) {
+    if(args.length % 4 != 1 && args.length > 4) {
       System.out.println( "   Invalid number of arguments. Usage is:\n\n" +
       "   java ClockSolver <xPos> <yPos> <xVel> <yVel> ... <timeSlice>\n");
       System.exit( 1 );
@@ -83,7 +81,7 @@ public class SoccerSim {
     return ballSack;
   }
 
-  private boolean collisionChecker(Ball ball1, Ball ball2) {
+  private static boolean collisionChecker(Ball ball1, Ball ball2) {
     double coreDistance = Math.sqrt(Math.pow((ball1.getXPos() - ball2.getXPos()), 2) + Math.pow((ball1.getYPos() - ball2.getYPos()), 2));
     if (coreDistance <= collisionRadius) {
       return true;
@@ -102,30 +100,31 @@ public class SoccerSim {
   public static void main( String args[] ) {
     SoccerSim cs = new SoccerSim();
     Ball[] bs = cs.handleInitialArguments(args);
-    for (int i = 0; i < bs.length; i++) {
-      System.out.println("Ball-" + i + " XPos: " + bs[i].getXPos());
-      System.out.println("Ball-" + i + " YPos: " + bs[i].getYPos());
-      System.out.println("Ball-" + i + " XVel: " + bs[i].getXVel());
-      System.out.println("Ball-" + i + " YVel: " + bs[i].getYVel());
-      System.out.println("Ball-" + i + " timeSlice: " + bs[i].getTimeSlice());
+    boolean vChecker = false;
+    boolean cChecker = false;
+    boolean finishedFlag = false;
+    while (!vChecker) {
+      vChecker = true;
+      for (int i = bs.length - 1; i >= 0; i--) {
+        System.out.println("Ball " + i + " <" + Math.round(bs[i].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[i].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[i].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[i].getYVel() * 1000.0)/1000.0 + ">");
+        vChecker = !(bs[i].tick());
+      }
+      System.out.println("--------------------");
+      for (int x = 0; x < bs.length; x++) {
+        for (int y = x + 1; y < bs.length; y++) {
+          cChecker = collisionChecker(bs[x], bs[y]);
+          if (cChecker == true && x != y) {
+            System.out.println("COLLISION (Ball " + x + " and " + y + ") at:");
+            System.out.println("Ball " + x + " <" + Math.round(bs[y].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[y].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[y].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[y].getYVel() * 1000.0)/1000.0 + ">");
+            System.out.println("Ball " + y + " <" + Math.round(bs[x].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[x].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[x].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[x].getYVel() * 1000.0)/1000.0 + ">");
+            finishedFlag = true;
+          }
+        }
+      }
+      if (finishedFlag == true) {
+        System.exit(1);
+      }
     }
-    // Clock clock    = new Clock();
-    // cs.handleInitialArguments(args, clock);
-    // System.out.println("\n\nRunning simulation with: ");
-    // System.out.println("Setting angle to: " + clock.getSoughtAngle());
-    // System.out.println("Setting slice to: " + clock.getTimeSlice());
-    // System.out.println("Tolerance: " + EPSILON_VALUE);
-    // cs.tolerance = EPSILON_VALUE * cs.angle;
-    // System.out.println("-------------");
-    // while(clock.getTotalSeconds() <= 43200) {
-    //   // cs.tolerance = EPSILON_VALUE * clock.getHandAngle();
-    //   if (Math.abs(clock.getHandAngle() - clock.getSoughtAngle()) <= EPSILON_VALUE) {
-    //     System.out.println(clock.toString());
-    //   }
-    //   // System.out.println("handAngle: " + clock.getHandAngle() + " at " + clock.toString());
-    //   clock.tick();
-    // }
-    // System.out.println("-------------");
-    // System.exit( 0 );
+    System.out.println("NO COLLISIONS DETECTED");
   }
 }

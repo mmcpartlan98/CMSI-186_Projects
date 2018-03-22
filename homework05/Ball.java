@@ -52,9 +52,9 @@ public class Ball {
     boolean returnVal = true;
     this.xPos = this.xPos + this.xVel * this.timeSlice;
     this.yPos = this.yPos + this.yVel * this.timeSlice;
-    this.xVel = this.xVel - this.xVel * 0.01;
-    this.yVel = this.yVel - this.yVel * 0.01;
-    if (this.xVel < 1 || this.yVel < 1) {
+    this.xVel = this.xVel - this.xVel * (0.01 * this.timeSlice);
+    this.yVel = this.yVel - this.yVel * (0.01 * this.timeSlice);
+    if (Math.abs(this.xVel) < 1 || Math.abs(this.yVel) < 1) {
       returnVal = false;
     }
     return returnVal;
