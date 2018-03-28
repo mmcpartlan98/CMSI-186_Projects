@@ -103,10 +103,11 @@ public class SoccerSim {
     boolean vChecker = false;
     boolean cChecker = false;
     boolean finishedFlag = false;
+    Ball pole = new Ball(100, 100, 0, 0, 0);
     while (!vChecker) {
       vChecker = true;
       for (int i = bs.length - 1; i >= 0; i--) {
-        System.out.println("Ball " + i + " <" + Math.round(bs[i].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[i].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[i].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[i].getYVel() * 1000.0)/1000.0 + ">");
+        System.out.println("Ball " + (Math.abs(i - bs.length) - 1) + " <" + Math.round(bs[i].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[i].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[i].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[i].getYVel() * 1000.0)/1000.0 + ">");
         vChecker = !(bs[i].tick());
       }
       System.out.println("--------------------");
@@ -114,11 +115,16 @@ public class SoccerSim {
         for (int y = x + 1; y < bs.length; y++) {
           cChecker = collisionChecker(bs[x], bs[y]);
           if (cChecker == true && x != y) {
-            System.out.println("COLLISION (Ball " + x + " and " + y + ") at:");
-            System.out.println("Ball " + x + " <" + Math.round(bs[y].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[y].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[y].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[y].getYVel() * 1000.0)/1000.0 + ">");
-            System.out.println("Ball " + y + " <" + Math.round(bs[x].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[x].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[x].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[x].getYVel() * 1000.0)/1000.0 + ">");
+            System.out.println("COLLISION (Ball " + (Math.abs(y - bs.length) - 1) + " and " + (Math.abs(x - bs.length) - 1) + ") at:");
+            System.out.println("Ball " + (Math.abs(y - bs.length) - 1) + " <" + Math.round(bs[y].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[y].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[y].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[y].getYVel() * 1000.0)/1000.0 + ">");
+            System.out.println("Ball " + (Math.abs(x - bs.length) - 1) + " <" + Math.round(bs[x].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[x].getYPos() * 1000.0)/1000.0 + ">  Velocity Vector: <" + Math.round(bs[x].getXVel() * 1000.0)/1000.0 + ", " + Math.round(bs[x].getYVel() * 1000.0)/1000.0 + ">");
             finishedFlag = true;
           }
+        }
+        if (collisionChecker(bs[x], pole) == true) {
+          System.out.println("COLLISION WITH POLE (Ball " + x + " at:");
+          System.out.println("Ball " + (Math.abs(x - bs.length) - 1) + " <" + Math.round(bs[x].getXPos() * 1000.0)/1000.0 + ", " + Math.round(bs[x].getYPos() * 1000.0)/1000.0 + ">");
+          finishedFlag = true;
         }
       }
       if (finishedFlag == true) {
