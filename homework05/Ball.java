@@ -28,6 +28,8 @@ public class Ball {
   private double yPos = 0;
   private double xVel = 0;
   private double yVel = 0;
+  private double xMax = 100000000;
+  private double yMax = 100000000;
   private double timeSlice = DEFAULT_TIME_SLICE_IN_SECONDS;
   private String ballID = "Ball-";
 
@@ -50,11 +52,18 @@ public class Ball {
   */
   public boolean tick() {
     boolean returnVal = true;
-    this.xPos = this.xPos + this.xVel * this.timeSlice;
-    this.yPos = this.yPos + this.yVel * this.timeSlice;
-    this.xVel = this.xVel - this.xVel * (0.01 * this.timeSlice);
-    this.yVel = this.yVel - this.yVel * (0.01 * this.timeSlice);
+    if (!(Double.isNaN(this.xVel)) && !(Double.isNaN(this.yVel))) {
+      this.xPos = this.xPos + this.xVel * this.timeSlice;
+      this.yPos = this.yPos + this.yVel * this.timeSlice;
+      this.xVel = this.xVel - this.xVel * (0.01 * this.timeSlice);
+      this.yVel = this.yVel - this.yVel * (0.01 * this.timeSlice);
+    }
     if (Math.abs(this.xVel) < 1 || Math.abs(this.yVel) < 1) {
+      returnVal = false;
+    }
+    if (Math.abs(this.xPos) > xMax || Math.abs(this.yPos) > yMax) {
+      this.xVel = Double.NaN;
+      this.yVel = Double.NaN;
       returnVal = false;
     }
     return returnVal;

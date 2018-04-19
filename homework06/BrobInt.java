@@ -53,13 +53,10 @@ public class BrobIntTemplate {
    *   and handles that accordingly;  it then checks to see if it's all valid digits.
    *  @param  value  String value to make into a BrobInt
    */
-   public BrobIntTemplate( String value ) {
+   public BrobInt( String value ) {
       this.internalValue = value;
-      if (this.internalValue[0] == "-") {
-        sign = 1;
-      } else {
-        sign = 1;
-      }
+      this.byteVersion = validateDigits();
+      this.validateDigits();
    }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -69,15 +66,28 @@ public class BrobIntTemplate {
    *  note that there is no return false, because of throwing the exception
    *  note also that this must check for the '+' and '-' sign digits
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-   public boolean validateDigits() {
+   public byte[] validateDigits() {
+     int startOfNumber = 0;
+     byte[] byteArray = new byte[internalValue.length() + 1];
+     while (((int) this.internalValue[startOfNumber] <= (int) "0" || (int) this.internalValue[startOfNumber] >= (int) "9") && (int) this.internalValue[startOfNumber] != (int) "-" && (int) this.internalValue[startOfNumber] != (int) "+") {
+       startOfNumber += 1;
+     }
       for (int i = 0; i < this.internalValue.length(); i++) {
         if ((int) this.internalValue[i] <= (int) "0" || (int) this.internalValue[i] >= (int) "9") {
-          if (this.internalValue[i] == "-" && i == 0) {
-            // VALID EXCEPTION
+          if (!(this.internalValue[i] == "-" && i != startOfNumber)) {
+            throw new IllegalArgumentException("Input contains at least one non-numeric input");
           }
-          //INVALID INPUT
         }
+        if (this.internalValue[i] == "-" && i == startOfNumber) {
+          this.sign = 1;
+        } else {
+          this.sign = 0;
+        }
+
+        byteArray[i + 1] = (byte) this.internalValue[i];
+
       }
+      return byteArray;
    }
 
    /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
