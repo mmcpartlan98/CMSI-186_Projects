@@ -144,82 +144,119 @@ public class BrobInt {
   public BrobInt add( BrobInt gint ) {
 
     byte localSign = 0;
+    byte[] carryArray;
+    byte[] sumArray1;
+    byte[] sumArray2;
+    BrobInt output;
 
     // System.out.println("gint sign: " + gint.sign);
     // System.out.println("this sign: " + this.sign);
 
-    if ((gint.sign == 1 && this.sign == 0) || (gint.sign == 0 && this.sign == 0)) {
-      // Call subtract function for the two magnitudes and handle signs afterward
-    } else if (gint.sign == 1 && this.sign == 1) {
+    if (gint.sign == 1 && this.sign == 1) {
       // Both are negative. Add magnitudes, final sign is negative.
       localSign = 1;
     }
 
-    byte[] carryArray;
-    byte[] sumArray1;
-    byte[] sumArray2;
-
-    if (gint.byteVersion.length >= this.byteVersion.length) {
-      carryArray = new byte[gint.byteVersion.length];
-      sumArray1 = new byte[gint.byteVersion.length];
-      sumArray2 = new byte[gint.byteVersion.length];
-    } else {
-      carryArray = new byte[this.byteVersion.length];
-      sumArray1 = new byte[this.byteVersion.length];
-      sumArray2 = new byte[this.byteVersion.length];
-    }
-
-    for (int i = 0; i < carryArray.length; i++) {
-      carryArray[i] = 0;
-    }
-
-    for (int i = gint.byteVersion.length - 1; i >= 0; i--) {
-      sumArray1[sumArray1.length - 1 - i] = gint.byteVersion[gint.byteVersion.length - 1 - i];
-    }
-
-    for (int i = this.byteVersion.length - 1; i >= 0; i--) {
-      sumArray2[sumArray2.length - 1 - i] = this.byteVersion[this.byteVersion.length - 1 - i];
-    }
-
-    for (int i = carryArray.length - 1; i >= 0; i--) {
-      if (sumArray1[i] + sumArray2[i] + carryArray[i] > 9) {
-        if (i != 0) {
-          carryArray[i - 1] = 1;
-        }
-        sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i] - 10);
-      } else if (sumArray1[i] + sumArray2[i] + carryArray[i] <= 9) {
-        sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i]);
-      }
-    }
-
-    for (int i = 0; i < carryArray.length; i++) {
-      // System.out.print(carryArray[i]);
-    }
-    // System.out.println();
-
-    for (int i = 0; i < sumArray1.length; i++) {
-      sumArray1[i] = (byte) (sumArray1[i] + carryArray[i]);
-    }
-
-    String byteString = "";
-    int hasHit = 0;
-
-    if (localSign == 1) {
-      byteString = byteString.concat( "-" );
-    }
-
-    for( int i = 0; i < sumArray1.length; i++ ) {
-      if(sumArray1[i] != 0) {
-        hasHit = 1;
-      }
-      if (hasHit == 0 && sumArray1[i] == 0) {
-        // Skip this concatenation cycle
+    if ((gint.sign == 1 && this.sign == 0) || (gint.sign == 0 && this.sign == 1)) {
+      // Call subtract function for the two magnitudes and handle signs in subtraction
+      System.out.println(gint.sign);
+      if (gint.sign == 1 && this.compareTo(gint.multiply(new BrobInt("-1"))) == -1) {
+        // negative gint is greater than positive this, final sign must be negative
+        // Subtract magnitudes, final negative sign
+        System.out.println("Path one. ");
+        gint.sign = 0;
+        output = gint.subtract(this);
+        gint.sign = 1;
+        System.out.println(output.toString());
+        output.sign = 1;
+      } else if (this.sign == 1 && gint.compareTo(this.multiply(new BrobInt("-1"))) == 1) {
+        // positive gint is greater than negative this
+        System.out.println("Path two. ");
+        this.sign = 0;
+        output = gint.subtract(this);
+        this.sign = 1;
+        output.sign = 0;
+      } else if (gint.sign == 1 && this.compareTo(gint.multiply(new BrobInt("-1"))) == 1) {
+        // negative gint is less than positive this, final sign negative
+        System.out.println("Path three. ");
+        gint.sign = 0;
+        output = gint.subtract(this);
+        gint.sign = 1;
+        output.sign = 1;
       } else {
-        byteString = byteString.concat( Byte.toString( sumArray1[i] ) );
+        // if (this.sign == 1 && gint.compareTo(this.multiply(new BrobInt("-1"))) == -1)
+        // positive gint is less than negative this
+        System.out.println("Path four. ");
+        this.sign = 0;
+        output = this.subtract(gint);
+        this.sign = 1;
+        output.sign = 1;
       }
-    }
+    } else {
 
-    BrobInt output = new BrobInt(byteString);
+      if (gint.byteVersion.length >= this.byteVersion.length) {
+        carryArray = new byte[gint.byteVersion.length];
+        sumArray1 = new byte[gint.byteVersion.length];
+        sumArray2 = new byte[gint.byteVersion.length];
+      } else {
+        carryArray = new byte[this.byteVersion.length];
+        sumArray1 = new byte[this.byteVersion.length];
+        sumArray2 = new byte[this.byteVersion.length];
+      }
+
+      for (int i = 0; i < carryArray.length; i++) {
+        carryArray[i] = 0;
+      }
+
+      for (int i = gint.byteVersion.length - 1; i >= 0; i--) {
+        sumArray1[sumArray1.length - 1 - i] = gint.byteVersion[gint.byteVersion.length - 1 - i];
+      }
+
+      for (int i = this.byteVersion.length - 1; i >= 0; i--) {
+        sumArray2[sumArray2.length - 1 - i] = this.byteVersion[this.byteVersion.length - 1 - i];
+      }
+
+      for (int i = carryArray.length - 1; i >= 0; i--) {
+        if (sumArray1[i] + sumArray2[i] + carryArray[i] > 9) {
+          if (i != 0) {
+            carryArray[i - 1] = 1;
+          }
+          sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i] - 10);
+        } else if (sumArray1[i] + sumArray2[i] + carryArray[i] <= 9) {
+          sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i]);
+        }
+      }
+
+      for (int i = 0; i < carryArray.length; i++) {
+        // System.out.print(carryArray[i]);
+      }
+      // System.out.println();
+
+      for (int i = 0; i < sumArray1.length; i++) {
+        sumArray1[i] = (byte) (sumArray1[i] + carryArray[i]);
+      }
+
+      String byteString = "";
+      int hasHit = 0;
+
+      if (localSign == 1) {
+        byteString = byteString.concat( "-" );
+      }
+
+      for( int i = 0; i < sumArray1.length; i++ ) {
+        if(sumArray1[i] != 0) {
+          hasHit = 1;
+        }
+        if (hasHit == 0 && sumArray1[i] == 0) {
+          // Skip this concatenation cycle
+        } else {
+          byteString = byteString.concat( Byte.toString( sumArray1[i] ) );
+        }
+      }
+
+      output = new BrobInt(byteString);
+
+    }
 
     return output;
   }
@@ -230,27 +267,98 @@ public class BrobInt {
   *  @return BrobInt that is the difference of the value of this BrobInt and the one passed in
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt subtract( BrobInt gint ) {
-    return gint;
+    byte subtractionResult[] = new byte[this.byteVersion.length];
+    byte subtractant[] = new byte[this.byteVersion.length];
+
+    for (int i = this.byteVersion.length - 1; i >= 0; i--) {
+      subtractionResult[i] = this.byteVersion[i];
+    }
+    for (int i = gint.byteVersion.length - 1; i >= 0; i--) {
+      subtractant[(this.byteVersion.length - gint.byteVersion.length) + i] = gint.byteVersion[i];
+    }
+
+    if ((gint.sign == 1 && this.sign == 0) || (gint.sign == 0 && this.sign == 1)) {
+      throw new UnsupportedOperationException("\n Attempted mixed sign subtraction (not supported)");
+
+    } else {
+
+      System.out.print("subtractionResult: ");
+      for (int i = 0; i < subtractionResult.length; i++) {
+        System.out.print(subtractionResult[i]);
+      }
+      System.out.println();
+
+      System.out.print("subtractant: ");
+      for (int i = 0; i < subtractant.length; i++) {
+        System.out.print(subtractant[i]);
+      }
+      System.out.println();
+
+
+      for (int i = subtractionResult.length - 1; i >= 0; i--) {
+        if (subtractionResult[i] - subtractant[i] < 0) {
+          subtractionResult[i - 1] = (byte) (subtractionResult[i - 1] - 1);
+          subtractionResult[i] = (byte) (subtractionResult[i] - subtractant[i] + 10);
+        } else if (subtractionResult[i] - subtractant[i] >= 0) {
+          subtractionResult[i] = (byte) (subtractionResult[i] - subtractant[i]);
+        }
+      }
+    }
+
+    System.out.println("subtractionResult (after): ");
+    for (int i = 0; i < subtractionResult.length; i++) {
+      System.out.print(subtractionResult[i]);
+    }
+    System.out.println();
+
+    String byteString = "";
+    int hasHit = 0;
+
+    for( int i = 0; i < subtractionResult.length; i++ ) {
+      if(subtractionResult[i] != 0) {
+        hasHit = 1;
+      }
+      if (hasHit == 0 && subtractionResult[i] == 0) {
+        // Skip this concatenation cycle
+      } else {
+        byteString = byteString.concat( Byte.toString( subtractionResult[i] ) );
+      }
+    }
+
+    BrobInt output = new BrobInt(byteString);
+
+    return output;
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  *  Method to multiply the value of a BrobIntk passed as argument to this BrobInt
+  *  Method to multiply the value of a BrobInt passed as argument to this BrobInt
   *  @param  gint         BrobInt to multiply by this
   *  @return BrobInt that is the product of the value of this BrobInt and the one passed in
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt multiply( BrobInt gint ) {
+
+    if (gint.compareTo(new BrobInt("-1")) == 0) {
+      if (this.sign == 1) {
+        this.sign = 0;
+      } else {
+        this.sign = 1;
+      }
+      System.out.println("Returning (multiply) with sign: " + this.sign);
+      return this;
+    }
+
     byte localSign = 0;
     if ((this.sign == 1 && gint.sign == 0) || (this.sign == 0 && gint.sign == 1)) {
       localSign = 1;
     }
-
+    System.out.println("Bypassing multiplication shortcut.");
     BrobInt index = new BrobInt("0");
     index.sign = localSign;
     BrobInt smallMultiplicand;
     BrobInt revolvingSum = new BrobInt("0");
     BrobInt largeMultiplicand;
 
-    if (gint.byteVersion.length >= this.byteVersion.length) {
+    if (this.compareTo(gint) == -1) {
       // New number is larger than old
       smallMultiplicand = this;
       largeMultiplicand = gint;
@@ -314,12 +422,24 @@ public class BrobInt {
   *  @return String  which is the String representation of this BrobInt
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public String toString() {
-    String byteVersionOutput = "";
-    for( int i = 0; i < byteVersion.length; i++ ) {
-      byteVersionOutput = byteVersionOutput.concat( Byte.toString( byteVersion[i] ) );
+    String byteString = "";
+    int hasHit = 0;
+
+    if (this.sign == 1) {
+      byteString = byteString.concat( "-" );
     }
-    byteVersionOutput = new String( new StringBuffer( byteVersionOutput ).reverse() );
-    return internalValue;
+
+    for( int i = 0; i < this.byteVersion.length; i++ ) {
+      if(this.byteVersion[i] != 0) {
+        hasHit = 1;
+      }
+      if (hasHit == 0 && this.byteVersion[i] == 0) {
+        // Skip these concatenation cycles
+      } else {
+        byteString = byteString.concat( Byte.toString( this.byteVersion[i] ) );
+      }
+    }
+    return byteString;
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -351,37 +471,52 @@ public class BrobInt {
   *  note:  we don't really care about these
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public static void main( String[] args ) {
-    System.out.println("Starting Test 1");
-    String test1 = "-14412790971971066401509243150244084984950628410898207";
-    BrobInt testA = new BrobInt(test1);
-    System.out.println();
-    System.out.println(testA.toString());
-    String test2 = "-144127909719710664015092431502440849849506284148982076191826176553";
-    BrobInt testB = new BrobInt(test2);
-    System.out.println(testB.toString());
-    System.out.println();
-
-    System.out.print(testB.add(testA));
-    System.out.println();
-    System.out.println("0144127909719725076806064402568842359092656528233967026820237074760");
-    System.out.println();
-
+    // System.out.println("Starting Test 1");
+    // String test1 = "-14412790971971066401509243150244084984950628410898207";
+    // BrobInt testA = new BrobInt(test1);
+    // System.out.println();
+    // System.out.println(testA.toString());
+    // String test2 = "-144127909719710664015092431502440849849506284148982076191826176553";
+    // BrobInt testB = new BrobInt(test2);
+    // System.out.println(testB.toString());
+    // System.out.println();
+    //
+    // System.out.print(testB.subtract(testA));
+    // System.out.println();
+    // System.out.println("0144127909719725076806064402568842359092656528233967026820237074760");
+    // System.out.println();
     try {
-      System.out.println("Starting Test 3");
-      String test3 = "A-12765EVR";
-      BrobInt testC = new BrobInt(test3);
-      for (int i = 0; i < testC.byteVersion.length; i++) {
-        System.out.print(testC.byteVersion[i] + " ");
-      }
-
+      System.out.println("Subtraction by 1:");
+      BrobInt subtractionTest1 = new BrobInt("1000");
+      System.out.println(subtractionTest1.subtract(new BrobInt("1")));
+      System.out.println("Expected: 999");
       System.out.println();
-      System.out.println(testC.toString());
+
+      System.out.println("Multiplication by -1:");
+      BrobInt multipTest1 = new BrobInt("1000");
+      System.out.println(multipTest1.multiply(new BrobInt("-1")));
+      System.out.println("Expected: -1000");
+      System.out.println();
+
+      System.out.println("Addition 2 (-1 + 1000): ");
+      BrobInt subtractionTest3 = new BrobInt("-1");
+      System.out.println("subtractionTest3.sign: " + subtractionTest3.sign);
+      BrobInt subtractionTest4 = new BrobInt("1000");
+      System.out.println(subtractionTest3.add(subtractionTest4));
+      System.out.println("Expected: 999");
       System.out.println();
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
 
     try {
+
+      System.out.println();
+      BrobInt compareTest = new BrobInt("-1");
+      BrobInt compareTest2 = new BrobInt("-1");
+      System.out.println("CompareTo: " + compareTest.compareTo(new BrobInt("-1")));
+      System.out.println();
+
       System.out.println("Starting Test 4");
       String test4 = "15-605";
       BrobInt testD = new BrobInt(test4);
