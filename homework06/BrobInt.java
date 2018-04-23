@@ -55,7 +55,12 @@ public class BrobInt {
   */
   public BrobInt( String value ) {
     this.internalValue = value;
-    this.byteVersion = this.validateDigits(this.internalValue);
+    if (this.internalValue.equals("0")) {
+      this.byteVersion = new byte[1];
+      this.byteVersion[0] = 0;
+    } else {
+      this.byteVersion = this.validateDigits(this.internalValue);
+    }
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,18 +111,36 @@ public class BrobInt {
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
   public int compareTo( BrobInt gint ) {
-    if( internalValue.length() > gint.internalValue.length() ) {
+    if (this.sign == 0 && gint.sign == 1) {
       return 1;
-    } else if( internalValue.length() < gint.internalValue.length() ) {
-      return (-1);
-    } else {
-      for( int i = 0; i < internalValue.length(); i++ ) {
-        Character a = new Character( internalValue.charAt(i) );
-        Character b = new Character( gint.internalValue.charAt(i) );
-        if( new Character(a).compareTo( new Character(b) ) > 0 ) {
-          return 1;
-        } else if( new Character(a).compareTo( new Character(b) ) < 0 ) {
-          return (-1);
+    } else if (this.sign == 1 && gint.sign == 0) {
+      return -1;
+    } else if (this.sign == 0 && gint.sign == 0) {
+      if ( byteVersion.length > gint.byteVersion.length ) {
+        return 1;
+      } else if( byteVersion.length < gint.byteVersion.length ) {
+        return (-1);
+      } else {
+        for( int i = 0; i < byteVersion.length; i++ ) {
+          if(byteVersion[i] > gint.byteVersion[i]) {
+            return 1;
+          } else if(byteVersion[i] < gint.byteVersion[i]) {
+            return (-1);
+          }
+        }
+      }
+    } else if (this.sign == 1 && gint.sign == 1) {
+      if ( byteVersion.length > gint.byteVersion.length ) {
+        return -1;
+      } else if( byteVersion.length < gint.byteVersion.length ) {
+        return (1);
+      } else {
+        for( int i = 0; i < byteVersion.length; i++ ) {
+          if(byteVersion[i] > gint.byteVersion[i]) {
+            return -1;
+          } else if(byteVersion[i] < gint.byteVersion[i]) {
+            return (1);
+          }
         }
       }
     }
@@ -254,6 +277,10 @@ public class BrobInt {
         }
       }
 
+      if (byteString.length() == 0 || byteString.equals("-")) {
+        byteString = "0";
+      }
+
       output = new BrobInt(byteString);
 
     }
@@ -305,7 +332,7 @@ public class BrobInt {
       }
     }
 
-    System.out.println("subtractionResult (after): ");
+    System.out.println("subtractionResult (after algorithm): ");
     for (int i = 0; i < subtractionResult.length; i++) {
       System.out.print(subtractionResult[i]);
     }
@@ -324,6 +351,13 @@ public class BrobInt {
         byteString = byteString.concat( Byte.toString( subtractionResult[i] ) );
       }
     }
+
+    if (byteString.length() == 0) {
+      byteString = "0";
+    }
+
+    System.out.print("ByteString: ");
+    System.out.println(byteString);
 
     BrobInt output = new BrobInt(byteString);
 
@@ -439,6 +473,9 @@ public class BrobInt {
         byteString = byteString.concat( Byte.toString( this.byteVersion[i] ) );
       }
     }
+    if (byteString.length() == 0 || byteString.equals("-")) {
+      byteString = "0";
+    }
     return byteString;
   }
 
@@ -486,63 +523,99 @@ public class BrobInt {
     // System.out.println("0144127909719725076806064402568842359092656528233967026820237074760");
     // System.out.println();
     try {
-      System.out.println("Subtraction by 1:");
-      BrobInt subtractionTest1 = new BrobInt("1000");
-      System.out.println(subtractionTest1.subtract(new BrobInt("1")));
-      System.out.println("Expected: 999");
+
+      System.out.println(new BrobInt("-1").compareTo(new BrobInt("1")));
+      System.out.println(new BrobInt("-1").compareTo(new BrobInt("-2")));
+      System.out.println(new BrobInt("-1").toString());
+      System.out.println(new BrobInt("0").toString());
+      System.out.println(new BrobInt("1").toString());
+
+      System.out.println("Adding two positives:");
+      BrobInt addPos1 = new BrobInt("1000");
+      System.out.println(addPos1.add(new BrobInt("1000")));
+      System.out.println("======== Expected: 2000 ========");
       System.out.println();
 
-      System.out.println("Multiplication by -1:");
+      System.out.println("Adding negative and positive:");
+      BrobInt addPos2 = new BrobInt("-1000");
+      System.out.println(addPos2.add(new BrobInt("1000")));
+      System.out.println("Expected: 0");
+      System.out.println();
+
+      System.out.println("Adding positive and negative:");
+      BrobInt addPos3 = new BrobInt("1000");
+      System.out.println(addPos3.add(new BrobInt("-1000")));
+      System.out.println("Expected: 0");
+      System.out.println();
+
+      System.out.println("Adding two negatives:");
+      BrobInt addPos4 = new BrobInt("-1000");
+      System.out.println(addPos4.add(new BrobInt("-1000")));
+      System.out.println("======== Expected: -2000 ========");
+      System.out.println();
+
+      System.out.println("Multiplication by -2:");
       BrobInt multipTest1 = new BrobInt("1000");
-      System.out.println(multipTest1.multiply(new BrobInt("-1")));
-      System.out.println("Expected: -1000");
+      System.out.println(multipTest1.multiply(new BrobInt("-2")));
+      System.out.println("======== Expected: -2000 ========");
       System.out.println();
 
-      System.out.println("Addition 2 (-1 + 1000): ");
-      BrobInt subtractionTest3 = new BrobInt("-1");
-      System.out.println("subtractionTest3.sign: " + subtractionTest3.sign);
-      BrobInt subtractionTest4 = new BrobInt("1000");
-      System.out.println(subtractionTest3.add(subtractionTest4));
-      System.out.println("Expected: 999");
+      System.out.println("Multiplication by 1:");
+      BrobInt multipTest2 = new BrobInt("1000");
+      System.out.println(multipTest2.multiply(new BrobInt("1")));
+      System.out.println("======== Expected: 1000 ========");
       System.out.println();
+
+      System.out.println("Division by -1:");
+      BrobInt divTest1 = new BrobInt("1000");
+      System.out.println(divTest1.divide(new BrobInt("-1")));
+      System.out.println("======== Expected: -1000 ========");
+      System.out.println();
+
+      System.out.println("Division by 1:");
+      BrobInt divTest2 = new BrobInt("1000");
+      System.out.println(divTest2.divide(new BrobInt("1")));
+      System.out.println("======== Expected: 1000 ========");
+      System.out.println();
+
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
 
-    try {
-
-      System.out.println();
-      BrobInt compareTest = new BrobInt("-1");
-      BrobInt compareTest2 = new BrobInt("-1");
-      System.out.println("CompareTo: " + compareTest.compareTo(new BrobInt("-1")));
-      System.out.println();
-
-      System.out.println("Starting Test 4");
-      String test4 = "15-605";
-      BrobInt testD = new BrobInt(test4);
-      for (int i = 0; i < testD.byteVersion.length; i++) {
-        System.out.print(testD.byteVersion[i] + " ");
-      }
-      System.out.println();
-      System.out.println(testD.toString());
-      System.out.println();
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
-
-    try {
-      System.out.println("Starting Test 5");
-      String test5 = "945 6095";
-      BrobInt testE = new BrobInt(test5);
-      for (int i = 0; i < testE.byteVersion.length; i++) {
-        System.out.print(testE.byteVersion[i] + " ");
-      }
-      System.out.println();
-      System.out.println(testE.toString());
-      System.out.println();
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
+    // try {
+    //
+    //   System.out.println();
+    //   BrobInt compareTest = new BrobInt("-1");
+    //   BrobInt compareTest2 = new BrobInt("-1");
+    //   System.out.println("CompareTo: " + compareTest.compareTo(new BrobInt("-1")));
+    //   System.out.println();
+    //
+    //   System.out.println("Starting Test 4");
+    //   String test4 = "15-605";
+    //   BrobInt testD = new BrobInt(test4);
+    //   for (int i = 0; i < testD.byteVersion.length; i++) {
+    //     System.out.print(testD.byteVersion[i] + " ");
+    //   }
+    //   System.out.println();
+    //   System.out.println(testD.toString());
+    //   System.out.println();
+    // } catch (Exception e) {
+    //   System.out.println(e.getMessage());
+    // }
+    //
+    // try {
+    //   System.out.println("Starting Test 5");
+    //   String test5 = "945 6095";
+    //   BrobInt testE = new BrobInt(test5);
+    //   for (int i = 0; i < testE.byteVersion.length; i++) {
+    //     System.out.print(testE.byteVersion[i] + " ");
+    //   }
+    //   System.out.println();
+    //   System.out.println(testE.toString());
+    //   System.out.println();
+    // } catch (Exception e) {
+    //   System.out.println(e.getMessage());
+    // }
     System.exit( 0 );
   }
 }
