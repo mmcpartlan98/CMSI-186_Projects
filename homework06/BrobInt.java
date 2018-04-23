@@ -73,7 +73,6 @@ public class BrobInt {
     while (((int) internalString.charAt(startOfNumber) < (int) '0' || (int) internalString.charAt(startOfNumber) > (int) '9')) {
       startOfNumber += 1;
     }
-    // System.out.println("StartOfNumber: " + startOfNumber);
     for (int i = 0; i < internalString.length(); i++) {
       if ((int) internalString.charAt(i) < (int) '0' || (int) internalString.charAt(i) > (int) '9') {
         if (((int) internalString.charAt(i) != (int) '-' && (int) internalString.charAt(i) != (int) '+') || i != startOfNumber - 1) {
@@ -83,18 +82,25 @@ public class BrobInt {
       if (startOfNumber != 0) {
         if (internalString.charAt(startOfNumber - 1) == '-') {
           this.sign = 1;
-          // System.out.println("Sign set to negative.");
         } else {
           this.sign = 0;
         }
       }
 
       if (this.sign == 1 && i == startOfNumber - 1) {
+        // Remove negative sign
         byteArray[i + 1] = (byte) 0;
       } else {
         byteArray[i + 1] = (byte) ((int) internalString.charAt(i) - 48);
       }
 
+    }
+    if (this.sign == 1) {
+      byte[] tempArray = new byte[byteArray.length - 1];
+      for (int i = 0; i < byteArray.length - 1; i++) {
+        tempArray[i] = byteArray[i + 1];
+      }
+      return tempArray;
     }
     return byteArray;
   }
@@ -106,18 +112,53 @@ public class BrobInt {
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
   public int compareTo( BrobInt gint ) {
-    if( internalValue.length() > gint.internalValue.length() ) {
+    byte byteVersionLengthThis = 0;
+    byte byteVersionLengthGint = 0;
+    int hasHit = 0;
+    for (int i = 0; i < this.byteVersion.length; i++) {
+      if (this.byteVersion[i] > 0 || hasHit == 1) {
+        hasHit = 1;
+        byteVersionLengthThis += 1;
+      }
+    }
+    hasHit = 0;
+    for (int i = 0; i < gint.byteVersion.length; i++) {
+      if (gint.byteVersion[i] > 0 || hasHit == 1) {
+        hasHit = 1;
+        byteVersionLengthGint += 1;
+      }
+    }
+
+    if (this.sign == 0 && gint.sign == 1) {
       return 1;
-    } else if( internalValue.length() < gint.internalValue.length() ) {
-      return (-1);
-    } else {
-      for( int i = 0; i < internalValue.length(); i++ ) {
-        Character a = new Character( internalValue.charAt(i) );
-        Character b = new Character( gint.internalValue.charAt(i) );
-        if( new Character(a).compareTo( new Character(b) ) > 0 ) {
-          return 1;
-        } else if( new Character(a).compareTo( new Character(b) ) < 0 ) {
-          return (-1);
+    } else if (this.sign == 1 && gint.sign == 0) {
+      return -1;
+    } else if (this.sign == 0 && gint.sign == 0) {
+      if ( byteVersionLengthThis > byteVersionLengthGint ) {
+        return 1;
+      } else if( byteVersionLengthThis < byteVersionLengthGint ) {
+        return (-1);
+      } else {
+        for( int i = 0; i < this.byteVersion.length; i++ ) {
+          if(byteVersion[i] > gint.byteVersion[i]) {
+            return 1;
+          } else if(byteVersion[i] < gint.byteVersion[i]) {
+            return (-1);
+          }
+        }
+      }
+    } else if (this.sign == 1 && gint.sign == 1) {
+      if ( byteVersionLengthThis > byteVersionLengthGint ) {
+        return -1;
+      } else if ( byteVersionLengthThis < byteVersionLengthGint ) {
+        return 1;
+      } else {
+        for( int i = 0; i < this.byteVersion.length; i++ ) {
+          if (byteVersion[i] > gint.byteVersion[i]) {
+            return -1;
+          } else if (byteVersion[i] < gint.byteVersion[i]) {
+            return 1;
+          }
         }
       }
     }
@@ -144,83 +185,127 @@ public class BrobInt {
   public BrobInt add( BrobInt gint ) {
 
     byte localSign = 0;
+    byte[] carryArray;
+    byte[] sumArray1;
+    byte[] sumArray2;
+    byte thisSign = this.sign;
+    byte gintSign = gint.sign;
+    BrobInt output;
 
     // System.out.println("gint sign: " + gint.sign);
     // System.out.println("this sign: " + this.sign);
 
-    if ((gint.sign == 1 && this.sign == 0) || (gint.sign == 0 && this.sign == 0)) {
-      // Call subtract function for the two magnitudes and handle signs afterward
-    } else if (gint.sign == 1 && this.sign == 1) {
+    if (gint.sign == 1 && this.sign == 1) {
       // Both are negative. Add magnitudes, final sign is negative.
       localSign = 1;
     }
 
-    byte[] carryArray;
-    byte[] sumArray1;
-    byte[] sumArray2;
-
-    if (gint.byteVersion.length >= this.byteVersion.length) {
-      carryArray = new byte[gint.byteVersion.length];
-      sumArray1 = new byte[gint.byteVersion.length];
-      sumArray2 = new byte[gint.byteVersion.length];
-    } else {
-      carryArray = new byte[this.byteVersion.length];
-      sumArray1 = new byte[this.byteVersion.length];
-      sumArray2 = new byte[this.byteVersion.length];
-    }
-
-    for (int i = 0; i < carryArray.length; i++) {
-      carryArray[i] = 0;
-    }
-
-    for (int i = gint.byteVersion.length - 1; i >= 0; i--) {
-      sumArray1[sumArray1.length - 1 - i] = gint.byteVersion[gint.byteVersion.length - 1 - i];
-    }
-
-    for (int i = this.byteVersion.length - 1; i >= 0; i--) {
-      sumArray2[sumArray2.length - 1 - i] = this.byteVersion[this.byteVersion.length - 1 - i];
-    }
-
-    for (int i = carryArray.length - 1; i >= 0; i--) {
-      if (sumArray1[i] + sumArray2[i] + carryArray[i] > 9) {
-        if (i != 0) {
-          carryArray[i - 1] = 1;
-        }
-        sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i] - 10);
-      } else if (sumArray1[i] + sumArray2[i] + carryArray[i] <= 9) {
-        sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i]);
-      }
-    }
-
-    for (int i = 0; i < carryArray.length; i++) {
-      // System.out.print(carryArray[i]);
-    }
-    // System.out.println();
-
-    for (int i = 0; i < sumArray1.length; i++) {
-      sumArray1[i] = (byte) (sumArray1[i] + carryArray[i]);
-    }
-
-    String byteString = "";
-    int hasHit = 0;
-
-    if (localSign == 1) {
-      byteString = byteString.concat( "-" );
-    }
-
-    for( int i = 0; i < sumArray1.length; i++ ) {
-      if(sumArray1[i] != 0) {
-        hasHit = 1;
-      }
-      if (hasHit == 0 && sumArray1[i] == 0) {
-        // Skip this concatenation cycle
+    if ((gint.sign == 1 && this.sign == 0) || (gint.sign == 0 && this.sign == 1)) {
+      // Call subtract function for the two magnitudes and handle signs in subtraction
+      // System.out.println(gint.sign);
+      if (gint.sign == 1 && this.compareTo(gint.multiply(new BrobInt("-1"))) < 1) {
+        // negative gint is greater than positive this, final sign must be negative
+        // Subtract magnitudes, final negative sign
+        // System.out.println("Path one. ");
+        gint.sign = 0;
+        output = gint.subtract(this);
+        gint.sign = 1;
+        // System.out.println(output.toString());
+        output.sign = 1;
+      } else if (this.sign == 1 && gint.compareTo(this.multiply(new BrobInt("-1"))) > -1) {
+        // positive gint is greater than negative this
+        // System.out.println("Path two. ");
+        this.sign = 0;
+        output = gint.subtract(this);
+        this.sign = 1;
+        output.sign = 0;
+      } else if (gint.sign == 1 && this.compareTo(gint.multiply(new BrobInt("-1"))) > -1) {
+        // negative gint is less than positive this, final sign negative
+        // System.out.println("Path three. ");
+        gint.sign = 0;
+        output = gint.subtract(this);
+        gint.sign = 1;
+        output.sign = 1;
       } else {
-        byteString = byteString.concat( Byte.toString( sumArray1[i] ) );
+        // if (this.sign == 1 && gint.compareTo(this.multiply(new BrobInt("-1"))) == -1)
+        // positive gint is less than negative this
+        // System.out.println("Path four. ");
+        this.sign = 0;
+        output = this.subtract(gint);
+        this.sign = 1;
+        output.sign = 1;
       }
+    } else {
+
+      if (gint.byteVersion.length >= this.byteVersion.length) {
+        carryArray = new byte[gint.byteVersion.length];
+        sumArray1 = new byte[gint.byteVersion.length];
+        sumArray2 = new byte[gint.byteVersion.length];
+      } else {
+        carryArray = new byte[this.byteVersion.length];
+        sumArray1 = new byte[this.byteVersion.length];
+        sumArray2 = new byte[this.byteVersion.length];
+      }
+
+      for (int i = 0; i < carryArray.length; i++) {
+        carryArray[i] = 0;
+      }
+
+      for (int i = gint.byteVersion.length - 1; i >= 0; i--) {
+        sumArray1[sumArray1.length - 1 - i] = gint.byteVersion[gint.byteVersion.length - 1 - i];
+      }
+
+      for (int i = this.byteVersion.length - 1; i >= 0; i--) {
+        sumArray2[sumArray2.length - 1 - i] = this.byteVersion[this.byteVersion.length - 1 - i];
+      }
+
+      for (int i = carryArray.length - 1; i >= 0; i--) {
+        if (sumArray1[i] + sumArray2[i] + carryArray[i] > 9) {
+          if (i != 0) {
+            carryArray[i - 1] = 1;
+          }
+          sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i] - 10);
+        } else if (sumArray1[i] + sumArray2[i] + carryArray[i] <= 9) {
+          sumArray1[i] = (byte) (sumArray1[i] + sumArray2[i]);
+        }
+      }
+
+      for (int i = 0; i < carryArray.length; i++) {
+        // System.out.print(carryArray[i]);
+      }
+      // System.out.println();
+
+      for (int i = 0; i < sumArray1.length; i++) {
+        sumArray1[i] = (byte) (sumArray1[i] + carryArray[i]);
+      }
+
+      String byteString = "";
+      int hasHit = 0;
+
+      if (localSign == 1) {
+        byteString = byteString.concat( "-" );
+      }
+
+      for( int i = 0; i < sumArray1.length; i++ ) {
+        if(sumArray1[i] != 0) {
+          hasHit = 1;
+        }
+        if (hasHit == 0 && sumArray1[i] == 0) {
+          // Skip this concatenation cycle
+        } else {
+          byteString = byteString.concat( Byte.toString( sumArray1[i] ) );
+        }
+      }
+
+      if (byteString.length() == 0 || byteString.equals("-")) {
+        byteString = "0";
+      }
+
+      output = new BrobInt(byteString);
+
     }
-
-    BrobInt output = new BrobInt(byteString);
-
+    this.sign = thisSign;
+    gint.sign = gintSign;
     return output;
   }
 
@@ -230,41 +315,160 @@ public class BrobInt {
   *  @return BrobInt that is the difference of the value of this BrobInt and the one passed in
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt subtract( BrobInt gint ) {
-    return gint;
+    byte thisSign = this.sign;
+    byte gintSign = gint.sign;
+    BrobInt output;
+    byte subtractionResult[];
+    byte subtractant[];
+
+    if (gint.byteVersion.length > this.byteVersion.length) {
+      subtractionResult = new byte[gint.byteVersion.length];
+      subtractant = new byte[gint.byteVersion.length];
+      for (int i = this.byteVersion.length - 1; i >= 0; i--) {
+        subtractionResult[(gint.byteVersion.length - this.byteVersion.length) + i] = this.byteVersion[i];
+      }
+
+      // Build the subtractant byte array
+      for (int i = gint.byteVersion.length - 1; i >= 0; i--) {
+        subtractant[i] = gint.byteVersion[i];
+      }
+    } else {
+      subtractionResult = new byte[this.byteVersion.length];
+      subtractant = new byte[this.byteVersion.length];
+      // Build the subtractionResult byte array
+      for (int i = this.byteVersion.length - 1; i >= 0; i--) {
+        subtractionResult[i] = this.byteVersion[i];
+      }
+
+      // Build the subtractant byte array
+      for (int i = gint.byteVersion.length - 1; i >= 0; i--) {
+        subtractant[(this.byteVersion.length - gint.byteVersion.length) + i] = gint.byteVersion[i];
+      }
+    }
+
+    if (this.sign == 0 && gint.sign == 0) {
+      // Positive - positive = depends
+      if (this.compareTo(gint) == -1) {
+        // Negative
+        output = new BrobInt(((gint.subtract(this)).multiply(new BrobInt("-1"))).toString());
+        this.sign = thisSign;
+        gint.sign = gintSign;
+        return output;
+      } else {
+        // if (this.compareTo(gint) == 1)
+        // Positive
+        for (int i = subtractionResult.length - 1; i >= 0; i--) {
+          if (subtractionResult[i] - subtractant[i] < 0) {
+            subtractionResult[i - 1] = (byte) (subtractionResult[i - 1] - 1);
+            subtractionResult[i] = (byte) (subtractionResult[i] - subtractant[i] + 10);
+          } else if (subtractionResult[i] - subtractant[i] >= 0) {
+            subtractionResult[i] = (byte) (subtractionResult[i] - subtractant[i]);
+          }
+        }
+        String byteString = "";
+        int hasHit = 0;
+
+        for( int i = 0; i < subtractionResult.length; i++ ) {
+          if(subtractionResult[i] != 0) {
+            hasHit = 1;
+          }
+          if (hasHit == 0 && subtractionResult[i] == 0) {
+            // Skip this concatenation cycle
+          } else {
+            byteString = byteString.concat( Byte.toString( subtractionResult[i] ) );
+          }
+        }
+
+        if (byteString.length() == 0) {
+          byteString = "0";
+        }
+        this.sign = thisSign;
+        gint.sign = gintSign;
+        return new BrobInt(byteString);
+      }
+    } else if ((this.sign == 0 && gint.sign == 1)) {
+      // Positive - negative = positive
+      output = new BrobInt((this.add(gint.multiply(new BrobInt("-1")))).toString());
+      this.sign = thisSign;
+      gint.sign = gintSign;
+      return output;
+    } else if (this.sign == 1 && gint.sign == 0) {
+      // Negative - positive = negative
+      output = new BrobInt((((this.multiply(new BrobInt("-1")).add(gint))).multiply(new BrobInt("-1"))).toString());
+      this.sign = thisSign;
+      gint.sign = gintSign;
+      return output;
+    } else {
+      // if (this.sign == 1 && gint.sign == 1)
+      // Negative - negative = depends
+      // Since comparint two negative numbers
+      // If this is less than gint it has a larger negative magnitude
+      if (this.compareTo(gint) == -1) {
+        // Negative
+        output = new BrobInt((((this.multiply(new BrobInt("-1"))).subtract(gint.multiply(new BrobInt("-1")))).multiply(new BrobInt("-1"))).toString());
+        this.sign = thisSign;
+        gint.sign = gintSign;
+        return output;
+      } else {
+        // if (this.compareTo(gint) == 1)
+        // Positive
+        output = new BrobInt((((gint.multiply(new BrobInt("-1"))).subtract(this.multiply(new BrobInt("-1")))).toString()));
+        this.sign = thisSign;
+        gint.sign = gintSign;
+        return output;
+      }
+    }
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  *  Method to multiply the value of a BrobIntk passed as argument to this BrobInt
+  *  Method to multiply the value of a BrobInt passed as argument to this BrobInt
   *  @param  gint         BrobInt to multiply by this
   *  @return BrobInt that is the product of the value of this BrobInt and the one passed in
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt multiply( BrobInt gint ) {
+    if (gint.compareTo(new BrobInt("-1")) == 0) {
+      if (this.sign == 1) {
+        this.sign = 0;
+      } else {
+        this.sign = 1;
+      }
+      return this;
+    }
+
     byte localSign = 0;
     if ((this.sign == 1 && gint.sign == 0) || (this.sign == 0 && gint.sign == 1)) {
       localSign = 1;
     }
-
     BrobInt index = new BrobInt("0");
-    index.sign = localSign;
     BrobInt smallMultiplicand;
     BrobInt revolvingSum = new BrobInt("0");
     BrobInt largeMultiplicand;
 
-    if (gint.byteVersion.length >= this.byteVersion.length) {
+    byte tempThisSign = this.sign;
+    byte tempGintSign = gint.sign;
+
+    this.sign = 0;
+    gint.sign = 0;
+
+    if (this.compareTo(gint) == -1) {
       // New number is larger than old
-      smallMultiplicand = this;
-      largeMultiplicand = gint;
+      smallMultiplicand = new BrobInt(this.toString());
+      largeMultiplicand = new BrobInt(gint.toString());
     } else {
       // New number is smaller than old
-      smallMultiplicand = gint;
-      largeMultiplicand = this;
+      smallMultiplicand = new BrobInt(gint.toString());
+      largeMultiplicand = new BrobInt(this.toString());
     }
+    smallMultiplicand.sign = 0;
+    largeMultiplicand.sign = 0;
+    this.sign = tempThisSign;
+    gint.sign = tempGintSign;
 
-    while (index.compareTo(smallMultiplicand) == -1) {
+    while (index.compareTo(smallMultiplicand) < 0) {
       revolvingSum = revolvingSum.add(largeMultiplicand);
       index = index.add(new BrobInt("1"));
     }
-
+    revolvingSum.sign = localSign;
     return revolvingSum;
   }
 
@@ -275,27 +479,40 @@ public class BrobInt {
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt divide( BrobInt gint ) {
     byte localSign = 0;
-    if ((this.sign == 1 && gint.sign == 0) || (this.sign == 0 && gint.sign == 1)) {
-      localSign = 1;
-    }
+    BrobInt index = new BrobInt("0");
+    BrobInt numerator;
+    BrobInt denominator;
+    BrobInt revolvingSum = new BrobInt("0");
 
+    if (gint.compareTo(new BrobInt("0")) == 0) {
+      return new BrobInt("0");
+    } else if (this.sign == 1 && gint.sign == 0) {
+      localSign = 1;
+      numerator = new BrobInt((this.multiply(new BrobInt("-1"))).toString());
+      denominator = new BrobInt(gint.toString());
+    } else if (this.sign == 0 && gint.sign == 1) {
+      localSign = 1;
+      numerator = new BrobInt(this.toString());
+      denominator = new BrobInt((gint.multiply(new BrobInt("-1"))).toString());
+    } else {
+      numerator = new BrobInt(this.toString());
+      denominator = new BrobInt(gint.toString());
+    }
     if (gint.compareTo(this) == 0) {
-      return new BrobInt("1");
+      if (localSign == 0) {
+        return new BrobInt("1");
+      } else {
+        return new BrobInt("-1");
+      }
     } else if (gint.compareTo(this) == 1) {
       return new BrobInt("0");
     } else {
-
-      BrobInt index = new BrobInt("0");
-      index.sign = localSign;
-      BrobInt numerator = this;
-      BrobInt denominator = gint;
-      BrobInt revolvingSum = new BrobInt("0");
-
-      while (numerator.compareTo(revolvingSum.add(denominator)) == 1) {
+      while (numerator.compareTo(revolvingSum.add(denominator)) > -1) {
         revolvingSum = revolvingSum.add(denominator);
         index = index.add(new BrobInt("1"));
       }
 
+      index.sign = localSign;
       return index;
     }
   }
@@ -306,7 +523,8 @@ public class BrobInt {
   *  @return BrobInt that is the remainder of division of this BrobInt by the one passed in
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public BrobInt remainder( BrobInt gint ) {
-    throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+    BrobInt divisionResult = new BrobInt((this.divide(gint)).toString());
+    return this.subtract(divisionResult.multiply(gint));
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -314,12 +532,27 @@ public class BrobInt {
   *  @return String  which is the String representation of this BrobInt
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public String toString() {
-    String byteVersionOutput = "";
-    for( int i = 0; i < byteVersion.length; i++ ) {
-      byteVersionOutput = byteVersionOutput.concat( Byte.toString( byteVersion[i] ) );
+    String byteString = "";
+    int hasHit = 0;
+
+    if (this.sign == 1) {
+      byteString = byteString.concat( "-" );
     }
-    byteVersionOutput = new String( new StringBuffer( byteVersionOutput ).reverse() );
-    return internalValue;
+
+    for( int i = 0; i < this.byteVersion.length; i++ ) {
+      if(this.byteVersion[i] != 0) {
+        hasHit = 1;
+      }
+      if (hasHit == 0 && this.byteVersion[i] == 0) {
+        // Skip these concatenation cycles
+      } else {
+        byteString = byteString.concat( Byte.toString( this.byteVersion[i] ) );
+      }
+    }
+    if (byteString.length() == 0 || byteString.equals("-")) {
+      byteString = "0";
+    }
+    return byteString;
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -351,62 +584,114 @@ public class BrobInt {
   *  note:  we don't really care about these
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public static void main( String[] args ) {
-    System.out.println("Starting Test 1");
-    String test1 = "-14412790971971066401509243150244084984950628410898207";
-    BrobInt testA = new BrobInt(test1);
-    System.out.println();
-    System.out.println(testA.toString());
-    String test2 = "-144127909719710664015092431502440849849506284148982076191826176553";
-    BrobInt testB = new BrobInt(test2);
-    System.out.println(testB.toString());
-    System.out.println();
-
-    System.out.print(testB.add(testA));
-    System.out.println();
-    System.out.println("0144127909719725076806064402568842359092656528233967026820237074760");
-    System.out.println();
-
     try {
-      System.out.println("Starting Test 3");
-      String test3 = "A-12765EVR";
-      BrobInt testC = new BrobInt(test3);
-      for (int i = 0; i < testC.byteVersion.length; i++) {
-        System.out.print(testC.byteVersion[i] + " ");
-      }
 
-      System.out.println();
-      System.out.println(testC.toString());
-      System.out.println();
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
+      System.out.println(new BrobInt("-999999").compareTo(new BrobInt("-234567")));
+      System.out.println(new BrobInt("0").compareTo(new BrobInt("2")));
+      System.out.println(new BrobInt("1000").compareTo(new BrobInt("-1000")));
+      System.out.println(new BrobInt("1000").compareTo(new BrobInt("-1000")));
+      System.out.println(new BrobInt("0").compareTo(new BrobInt("0")));
+      System.out.println(new BrobInt("1").compareTo(new BrobInt("-9")));
+      System.out.println(" ======== ");
+      System.out.println(new BrobInt("-1").toString());
+      System.out.println(new BrobInt("0").toString());
+      System.out.println(new BrobInt("1").toString());
 
-    try {
-      System.out.println("Starting Test 4");
-      String test4 = "15-605";
-      BrobInt testD = new BrobInt(test4);
-      for (int i = 0; i < testD.byteVersion.length; i++) {
-        System.out.print(testD.byteVersion[i] + " ");
-      }
+      System.out.print("Adding two positives: ");
+      BrobInt addPos1 = new BrobInt("1000");
+      System.out.println(addPos1.add(new BrobInt("1000")));
+      System.out.println("================ Expected:  2000");
       System.out.println();
-      System.out.println(testD.toString());
-      System.out.println();
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
 
-    try {
-      System.out.println("Starting Test 5");
-      String test5 = "945 6095";
-      BrobInt testE = new BrobInt(test5);
-      for (int i = 0; i < testE.byteVersion.length; i++) {
-        System.out.print(testE.byteVersion[i] + " ");
-      }
+      System.out.print("Adding two positives: ");
+      BrobInt addPos5 = new BrobInt("99999");
+      System.out.println(addPos5.add(new BrobInt("99999")));
+      System.out.println("================ Expected:  2000");
       System.out.println();
-      System.out.println(testE.toString());
+
+      System.out.print("Adding negative and positive: ");
+      BrobInt addPos2 = new BrobInt("-1000");
+      System.out.println(addPos2.add(new BrobInt("1000")));
+      System.out.println("================ Expected:  0");
       System.out.println();
+
+      System.out.print("Adding positive and negative: ");
+      BrobInt addPos3 = new BrobInt("1000");
+      System.out.println(addPos3.add(new BrobInt("-1000")));
+      System.out.println("================ Expected:  0");
+      System.out.println();
+
+      System.out.print("Adding two negatives: ");
+      BrobInt addPos4 = new BrobInt("-1000");
+      System.out.println(addPos4.add(new BrobInt("-1000")));
+      System.out.println("================ Expected:  -2000");
+      System.out.println();
+
+      // Subtraction tests
+      System.out.print("Subtracting two positives: ");
+      BrobInt subPos1 = new BrobInt("1000");
+      System.out.println(subPos1.subtract(new BrobInt("500")));
+      System.out.println("================ Expected:  500");
+      System.out.println();
+
+      System.out.print("Subtracting positive and negative: ");
+      BrobInt subPos3 = new BrobInt("1000");
+      System.out.println(subPos3.subtract(new BrobInt("-1000")));
+      System.out.println("================ Expected:  2000");
+      System.out.println();
+
+      System.out.print("Subtracting negative and positive: ");
+      BrobInt subPos2 = new BrobInt("-1000");
+      System.out.println(subPos2.subtract(new BrobInt("1000")));
+      System.out.println("================ Expected:  -2000");
+      System.out.println();
+
+      System.out.print("Subtract two negatives: ");
+      BrobInt subPos4 = new BrobInt("-1000");
+      System.out.println(subPos4.subtract(new BrobInt("-500")));
+      System.out.println("================ Expected:  -500");
+      System.out.println();
+
+      // Multiplication
+      System.out.print("Multiplication by -2: ");
+      BrobInt multipTest1 = new BrobInt("1000");
+      System.out.println(multipTest1.multiply(new BrobInt("-2")));
+      System.out.println("================ Expected:  -2000");
+      System.out.println();
+
+      System.out.print("Multiplication by 1: ");
+      BrobInt multipTest2 = new BrobInt("1000");
+      System.out.println(multipTest2.multiply(new BrobInt("1")));
+      System.out.println("================ Expected:  1000");
+      System.out.println();
+
+      System.out.print("Division by -1000: ");
+      BrobInt divTest3 = new BrobInt("1000");
+      System.out.println(divTest3.divide(new BrobInt("-1000")));
+      System.out.println("================ Expected:  -1");
+      System.out.println();
+
+      System.out.print("Division by large negative number: ");
+      BrobInt divTest2 = new BrobInt("105928000006");
+      System.out.println(divTest2.divide(new BrobInt("-10597")));
+      System.out.println("================ Expected:  -9996036");
+      System.out.println();
+
+      System.out.print("Division by -2: ");
+      BrobInt divTest4 = new BrobInt("1000");
+      System.out.println(divTest4.divide(new BrobInt("-2")));
+      System.out.println("================ Expected:  -500");
+      System.out.println();
+
+      System.out.print("Division by 0: ");
+      BrobInt divTest1 = new BrobInt("1000");
+      System.out.println(divTest1.divide(new BrobInt("0")));
+      System.out.println("================ Expected:  0");
+      System.out.println();
+
+      // BrobInt inputTest1 = new BrobInt("trash123");
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      e.printStackTrace();
     }
     System.exit( 0 );
   }
