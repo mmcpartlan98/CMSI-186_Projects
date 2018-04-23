@@ -112,7 +112,7 @@ public class BrobInt {
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
   public int compareTo( BrobInt gint ) {
-  byte byteVersionLengthThis = 0;
+    byte byteVersionLengthThis = 0;
     byte byteVersionLengthGint = 0;
     int hasHit = 0;
     for (int i = 0; i < this.byteVersion.length; i++) {
@@ -484,7 +484,9 @@ public class BrobInt {
     BrobInt denominator;
     BrobInt revolvingSum = new BrobInt("0");
 
-    if (this.sign == 1 && gint.sign == 0) {
+    if (gint.compareTo(new BrobInt("0")) == 0) {
+      return new BrobInt("0");
+    } else if (this.sign == 1 && gint.sign == 0) {
       localSign = 1;
       numerator = new BrobInt((this.multiply(new BrobInt("-1"))).toString());
       denominator = new BrobInt(gint.toString());
@@ -496,17 +498,20 @@ public class BrobInt {
       numerator = new BrobInt(this.toString());
       denominator = new BrobInt(gint.toString());
     }
-
     if (gint.compareTo(this) == 0) {
-      return new BrobInt("1");
+      if (localSign == 0) {
+        return new BrobInt("1");
+      } else {
+        return new BrobInt("-1");
+      }
     } else if (gint.compareTo(this) == 1) {
       return new BrobInt("0");
     } else {
-
       while (numerator.compareTo(revolvingSum.add(denominator)) > -1) {
         revolvingSum = revolvingSum.add(denominator);
         index = index.add(new BrobInt("1"));
       }
+
       index.sign = localSign;
       return index;
     }
@@ -583,7 +588,7 @@ public class BrobInt {
 
       System.out.println(new BrobInt("-999999").compareTo(new BrobInt("-234567")));
       System.out.println(new BrobInt("0").compareTo(new BrobInt("2")));
-      System.out.println(new BrobInt("-1").compareTo(new BrobInt("-9")));
+      System.out.println(new BrobInt("1000").compareTo(new BrobInt("-1000")));
       System.out.println(new BrobInt("1000").compareTo(new BrobInt("-1000")));
       System.out.println(new BrobInt("0").compareTo(new BrobInt("0")));
       System.out.println(new BrobInt("1").compareTo(new BrobInt("-9")));
@@ -592,99 +597,99 @@ public class BrobInt {
       System.out.println(new BrobInt("0").toString());
       System.out.println(new BrobInt("1").toString());
 
-      System.out.println("Adding two positives:");
+      System.out.print("Adding two positives: ");
       BrobInt addPos1 = new BrobInt("1000");
       System.out.println(addPos1.add(new BrobInt("1000")));
-      System.out.println("======== Expected: 2000 ========");
+      System.out.println("================ Expected:  2000");
       System.out.println();
 
-      System.out.println("Adding two positives:");
-      BrobInt addPos5 = new BrobInt("5928374659823645876293847569283659823649582638456298374659836798452938746598347659826948569832674598369586348562034569237659236598369586734986589376589376298456389246598768356847659346592834985723649857239487569384765923874695837495874659837054234596283764598736498576938476598372694587236587643986982739648756938476598327469538746598736498756398476598374659847632587324");
-      System.out.println(addPos5.add(new BrobInt("5928374659823645876293847569283659823649582638456298374659836798452938746598347659826948569832674598369586348562034569237659236598369586734986589376589376298456389246598768356847659346592834985723649857239487569384765923874695837495874659837054234596283764598736498576938476598372694587236587643986982739648756938476598327469538746598736498756398476598374659847632587324")));
-      System.out.println("======== Expected: 2000 ========");
+      System.out.print("Adding two positives: ");
+      BrobInt addPos5 = new BrobInt("99999");
+      System.out.println(addPos5.add(new BrobInt("99999")));
+      System.out.println("================ Expected:  2000");
       System.out.println();
 
-      System.out.println("Adding negative and positive:");
+      System.out.print("Adding negative and positive: ");
       BrobInt addPos2 = new BrobInt("-1000");
       System.out.println(addPos2.add(new BrobInt("1000")));
-      System.out.println("======== Expected: 0 ========");
+      System.out.println("================ Expected:  0");
       System.out.println();
 
-      System.out.println("Adding positive and negative:");
+      System.out.print("Adding positive and negative: ");
       BrobInt addPos3 = new BrobInt("1000");
       System.out.println(addPos3.add(new BrobInt("-1000")));
-      System.out.println("======== Expected: 0 ========");
+      System.out.println("================ Expected:  0");
       System.out.println();
 
-      System.out.println("Adding two negatives:");
+      System.out.print("Adding two negatives: ");
       BrobInt addPos4 = new BrobInt("-1000");
       System.out.println(addPos4.add(new BrobInt("-1000")));
-      System.out.println("======== Expected: -2000 ========");
+      System.out.println("================ Expected:  -2000");
       System.out.println();
 
       // Subtraction tests
-      System.out.println("Subtracting two positives:");
+      System.out.print("Subtracting two positives: ");
       BrobInt subPos1 = new BrobInt("1000");
       System.out.println(subPos1.subtract(new BrobInt("500")));
-      System.out.println("======== Expected: 500 ========");
+      System.out.println("================ Expected:  500");
       System.out.println();
 
-      System.out.println("Subtracting positive and negative:");
+      System.out.print("Subtracting positive and negative: ");
       BrobInt subPos3 = new BrobInt("1000");
       System.out.println(subPos3.subtract(new BrobInt("-1000")));
-      System.out.println("======== Expected: 2000 ========");
+      System.out.println("================ Expected:  2000");
       System.out.println();
 
-      System.out.println("Subtracting negative and positive:");
+      System.out.print("Subtracting negative and positive: ");
       BrobInt subPos2 = new BrobInt("-1000");
       System.out.println(subPos2.subtract(new BrobInt("1000")));
-      System.out.println("======== Expected: -2000 ========");
+      System.out.println("================ Expected:  -2000");
       System.out.println();
 
-      System.out.println("Subtract two negatives:");
+      System.out.print("Subtract two negatives: ");
       BrobInt subPos4 = new BrobInt("-1000");
       System.out.println(subPos4.subtract(new BrobInt("-500")));
-      System.out.println("======== Expected: -500 ========");
+      System.out.println("================ Expected:  -500");
       System.out.println();
 
       // Multiplication
-      System.out.println("Multiplication by -2:");
+      System.out.print("Multiplication by -2: ");
       BrobInt multipTest1 = new BrobInt("1000");
       System.out.println(multipTest1.multiply(new BrobInt("-2")));
-      System.out.println("======== Expected: -2000 ========");
+      System.out.println("================ Expected:  -2000");
       System.out.println();
 
-      System.out.println("Multiplication by 1:");
+      System.out.print("Multiplication by 1: ");
       BrobInt multipTest2 = new BrobInt("1000");
       System.out.println(multipTest2.multiply(new BrobInt("1")));
-      System.out.println("======== Expected: 1000 ========");
+      System.out.println("================ Expected:  1000");
       System.out.println();
 
-      System.out.println("Division by 1:");
+      System.out.print("Division by -1000: ");
       BrobInt divTest3 = new BrobInt("1000");
-      System.out.println(divTest3.divide(new BrobInt("1")));
-      System.out.println("======== Expected: 1000 ========");
+      System.out.println(divTest3.divide(new BrobInt("-1000")));
+      System.out.println("================ Expected:  -1");
       System.out.println();
 
-      System.out.println("Division by large number:");
-      BrobInt divTest2 = new BrobInt("10592837465982364587629384756928365982364958263845629837465983679845293874659834765982694856983267459836958634856203456923765923659836958673498658937658937629845638924659876835684765934659283498572364985723948756938476592387469583749587465983705423459628376459873649857693847659837269458723658764398698273964875693847659832746953874659873649875639847659837465984763258732400");
-      System.out.println(divTest2.divide(new BrobInt("234756987364598763987456983765987369587694865928736495876398475693874659873649875683765983764598346587639583847569387465983765985092734695276349576329564978659836458972648956348975628946702765409856729837456928736987634985762984765827659876549527645293876587346587364892563845628964857263895763984765893267498576439856893762598347658972634987563984765893264897653987264958")));
-      System.out.println("======== Expected: 500 ========");
+      System.out.print("Division by large negative number: ");
+      BrobInt divTest2 = new BrobInt("105928000006");
+      System.out.println(divTest2.divide(new BrobInt("-10597")));
+      System.out.println("================ Expected:  -9996036");
       System.out.println();
 
-      System.out.println("Division by -2:");
+      System.out.print("Division by -2: ");
       BrobInt divTest4 = new BrobInt("1000");
       System.out.println(divTest4.divide(new BrobInt("-2")));
-      System.out.println("======== Expected: -500 ========");
+      System.out.println("================ Expected:  -500");
       System.out.println();
 
-      System.out.println("Division by -1:");
+      System.out.print("Division by 0: ");
       BrobInt divTest1 = new BrobInt("1000");
-      System.out.println(divTest1.divide(new BrobInt("-1")));
-      System.out.println("======== Expected: -1000 ========");
+      System.out.println(divTest1.divide(new BrobInt("0")));
+      System.out.println("================ Expected:  0");
       System.out.println();
 
-      BrobInt inputTest1 = new BrobInt("trash123");
+      // BrobInt inputTest1 = new BrobInt("trash123");
     } catch (Exception e) {
       e.printStackTrace();
     }
