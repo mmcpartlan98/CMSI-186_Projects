@@ -23,18 +23,18 @@ BrobInt reverser method [of 2]      : 2 points
 
 BrobInt Tester class                : 1 point
 BrobInt add [of 9]                  : 9 points
-BrobInt subtract [of 7]             : 0 points
+BrobInt subtract [of 7]             : 7 points
 BrobInt mult [of 7, 1 pt. EC]       : 1 point
 BrobInt div [of 2, 1 pt. EC]        : 1 point
-BrobInt remainder [of 2, 1 pt. EC]  : 0 point
+BrobInt remainder [of 2, 1 pt. EC]  : 1 point
 
-Fib class file exists               : 0 point
-Fib constructor                     : 0 point
-Fib input error handling            : 0 point
-Fib output correct number [of 4]    : 0 points
+Fib class file exists               : 1 point
+Fib constructor                     : 1 point
+Fib input error handling            : 1 point
+Fib output correct number [of 4]    : 4 points
 
-Minimum three files in repo (3)     : 2 points
-All files compile (3)               : 2 points
+Minimum three files in repo (3)     : 3 points
+All files compile (3)               : 3 points
 Coding Style                        : 2 points
 Javadocs                            : 1 point
 
@@ -43,10 +43,10 @@ Total possible score: 40 points
 
 Evaluation
 ==========
-   26 out of 40 = 65.0% which is a D
+   43 out of 40 = 107.50% which is an A-plus
+taking off 10 points for being late still makes 97.5%
+   which is actually still and A-plus, since you did the
+   three extra credit problems.
 
-You didn't do the Fibonacci program which was required, that cost you
-nine of the points you lost.  Your subtract method failed all seven
-tests.
-
+Nice work!
 
