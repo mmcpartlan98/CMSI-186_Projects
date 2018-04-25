@@ -606,7 +606,7 @@ public class BrobInt {
       System.out.print("Adding two positives: ");
       BrobInt addPos5 = new BrobInt("99999");
       System.out.println(addPos5.add(new BrobInt("99999")));
-      System.out.println("================ Expected:  2000");
+      System.out.println("================ Expected:  199998");
       System.out.println();
 
       System.out.print("Adding negative and positive: ");
