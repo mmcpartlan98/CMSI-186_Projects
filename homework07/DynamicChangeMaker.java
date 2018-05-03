@@ -250,7 +250,7 @@ public class DynamicChangeMaker {
     for (int i = 0; i < args[0].length(); i++) {
       if ((int) args[0].charAt(i) < (int) '0' || (int) args[0].charAt(i) > (int) '9') {
         if ((int) args[0].charAt(i) != (int) ' ' && (int) args[0].charAt(i) != (int) ',') {
-          throw new IllegalArgumentException("Argument must be an array of ints, followed by a single int!");
+          throw new IllegalArgumentException("Argument must be an array of ints, followed by a single int (and NO NEGATIVES)!");
         }
       }
     }
@@ -258,7 +258,7 @@ public class DynamicChangeMaker {
     for (int i = 0; i < args[1].length(); i++) {
       if ((int) args[1].charAt(i) < (int) '0' || (int) args[1].charAt(i) > (int) '9') {
         if ((int) args[1].charAt(i) != (int) ' ' && (int) args[1].charAt(i) != (int) ',') {
-          throw new IllegalArgumentException("Argument must be an array of ints, followed by a single int!");
+          throw new IllegalArgumentException("Argument must be an array of ints, followed by a single int (and NO NEGATIVES)!");
         }
       }
     }
@@ -274,6 +274,10 @@ public class DynamicChangeMaker {
     System.out.println("Results: ");
     for (int i = 0; i < result.length(); i++) {
       System.out.println(array[i] + " cent coins: " + result.getElement(i));
+    }
+
+    if (result.isImpossible()) {
+      System.out.println("Impossible.");
     }
 
     System.exit( 0 );
