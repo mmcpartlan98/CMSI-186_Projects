@@ -156,11 +156,11 @@ public class DynamicChangeMaker {
             remainder = remainder % cm.getDenominations().getElement(k);
             total = total + testTuple.getElement(k) * cm.getDenominations().getElement(k);
           }
-          // System.out.println("Total: " + total);
-          // System.out.println("J + 1: " + (j+1));
+          //System.out.println("Total: " + total);
+          //System.out.println("J + 1: " + (j+1));
           if (total == j + 1) {
             // System.out.println("Writing");
-            // System.out.println(testTuple.toString());
+            //System.out.println(testTuple.toString());
             cm._table[i][j] = testTuple;
           }
         }
@@ -242,15 +242,39 @@ public class DynamicChangeMaker {
   *  note:  we don't really care about these
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public static void main( String[] args ) {
-    try {
-      int array1[] = {17, 23, 121, 47, 3};
-      DynamicChangeMaker inputTest = new DynamicChangeMaker(array1, 13579);
-      System.out.println(inputTest.toString());
-      System.out.println(inputTest.makeChangeWithDynamicProgramming(array1, 13579).toString());
-    } catch (Exception e) {
-      e.printStackTrace();
-      // System.out.println(e.getMessage());
+    if (args.length != 2) {
+      throw new IllegalArgumentException("Wrong number of args!");
     }
+
+    for (int i = 0; i < args[0].length(); i++) {
+      if ((int) args[0].charAt(i) < (int) '0' || (int) args[0].charAt(i) > (int) '9') {
+        if ((int) args[0].charAt(i) != (int) ' ' && (int) args[0].charAt(i) != (int) ',') {
+          throw new IllegalArgumentException("Argument must be an array of ints, followed by a single int!");
+        }
+      }
+    }
+
+    for (int i = 0; i < args[1].length(); i++) {
+      if ((int) args[1].charAt(i) < (int) '0' || (int) args[1].charAt(i) > (int) '9') {
+        if ((int) args[1].charAt(i) != (int) ' ' && (int) args[1].charAt(i) != (int) ',') {
+          throw new IllegalArgumentException("Argument must be an array of ints, followed by a single int!");
+        }
+      }
+    }
+
+    String[] split = args[0].split(",");
+    int[] array = new int[split.length];
+    for (int i = 0; i < array.length; i++) {
+      array[i] = Integer.parseInt(split[i]);
+    }
+
+    Tuple result = makeChangeWithDynamicProgramming(array, Integer.parseInt(args[1]));
+
+    System.out.println("Results: ");
+    for (int i = 0; i < result.length(); i++) {
+      System.out.println(array[i] + " cent coins: " + result.getElement(i));
+    }
+
     System.exit( 0 );
   }
 }
