@@ -45,11 +45,6 @@ public class DynamicChangeMaker {
     _changeValue = validateChangeValue(centValue);
     _table = new Tuple[this.getDenominations().length()][this.getChangeValue()];
 
-    for (int i = 0; i < this.getDenominations().length(); i++) {
-      System.out.print(_indeces[i]);
-    }
-    System.out.println();
-
     for( int i = 0; i < this.getDenominations().length(); i++ ) {
       for( int j = 0; j < this.getChangeValue(); j++ ) {
         int zeros[] = new int[this.getDenominations().length()];
@@ -237,6 +232,10 @@ public class DynamicChangeMaker {
     return this._changeValue.getElement(0);
   }
 
+  public Tuple getChangeTup() {
+    return this._changeValue;
+  }
+
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   *  the main method redirects the user to the test class
   *  @param  args  String array which contains command line arguments
@@ -257,7 +256,7 @@ public class DynamicChangeMaker {
 
     for (int i = 0; i < args[1].length(); i++) {
       if ((int) args[1].charAt(i) < (int) '0' || (int) args[1].charAt(i) > (int) '9') {
-        if ((int) args[1].charAt(i) != (int) ' ' && (int) args[1].charAt(i) != (int) ',') {
+        if ((int) args[1].charAt(i) != (int) ' ' && (int) args[1].charAt(i) != (int) ',' && (int) args[1].charAt(i) != (int) '-') {
           throw new IllegalArgumentException("Argument must be an array of ints, followed by a single int (and NO NEGATIVES)!");
         }
       }
@@ -267,6 +266,12 @@ public class DynamicChangeMaker {
     int[] array = new int[split.length];
     for (int i = 0; i < array.length; i++) {
       array[i] = Integer.parseInt(split[i]);
+    }
+
+    DynamicChangeMaker testResult = new DynamicChangeMaker(array, Integer.parseInt(args[1]));
+    if (testResult.getDenominations().isImpossible() || testResult.getChangeTup().isImpossible()) {
+      System.out.println("BAD DATA!");
+      System.exit(1);
     }
 
     Tuple result = makeChangeWithDynamicProgramming(array, Integer.parseInt(args[1]));
