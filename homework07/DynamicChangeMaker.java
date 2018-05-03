@@ -90,7 +90,8 @@ public class DynamicChangeMaker {
   *  @throws  IllegalArgumentException if inputs are invalid.
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public Tuple verifyDenominations( int denominationsIn[] ) {
-    int input[] = sortDenominations(denominationsIn);
+    int denominationsOut[] = denominationsIn.clone();
+    int input[] = sortDenominations(denominationsOut);
     // Check for repeats
     for (int i = 0; i < input.length - 1; i++) {
       for (int e = i + 1; e < input.length; e++) {
