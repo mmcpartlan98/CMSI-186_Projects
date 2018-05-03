@@ -1,22 +1,18 @@
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* File name  :  BrobInt.java
-* Purpose    :  Learning exercise to implement arbitrarily large numbers and their operations
-* @author    :  B.J. Johnson
-* Date       :  2017-04-04
-* Description:  @see <a href='http://bjohnson.lmu.build/cmsi186web/homework06.html'>Assignment Page</a>
+* File name  :  DynamicChangeMaker.java
+* Purpose    :  Make change with dynamic programming!
+* @author    :  Matt McPartlan
+* Date       :  2018-05-03
+* Description:  @see <a href='http://bjohnson.lmu.build/cmsi186web/homework07.html'>Assignment Page</a>
 * Notes      :  None
 * Warnings   :  None
 *
 *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Revision History
 * ================
-*   Ver      Date     Modified by:  Reason for change or modification
-*  -----  ----------  ------------  ---------------------------------------------------------------------
-*  1.0.0  2017-04-04  B.J. Johnson  Initial writing and begin coding
-*  1.1.0  2017-04-13  B.J. Johnson  Completed addByt, addInt, compareTo, equals, toString, Constructor,
-*                                     validateDigits, two reversers, and valueOf methods; revamped equals
-*                                     and compareTo methods to use the Java String methods; ready to
-*                                     start work on subtractByte and subtractInt methods
+*   Ver      Date     Modified by:   Reason for change or modification
+*  -----  ----------  -------------  ---------------------------------------------------------------------
+*  1.0.0  2018-05-03  Matt McPartlan  Initial writing and testing
 *
 *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.Arrays;
@@ -32,7 +28,7 @@ public class DynamicChangeMaker {
   private int[] _indeces;
 
   /**
-  *  Constructor takes a string and assigns it to the internal storage, checks for a sign character
+  *  Constructor takes an int array and an int and assigns them to the internal storage, checks for a sign character
   *   and handles that accordingly;  it then checks to see if it's all valid digits.
   *  @param  value  String value to make into a BrobInt
   */
@@ -232,6 +228,11 @@ public class DynamicChangeMaker {
     return this._changeValue.getElement(0);
   }
 
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  *  Getter method for _changeValue;
+  *  @return  Tuple _changeValue.
+  *  @throws  None
+  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public Tuple getChangeTup() {
     return this._changeValue;
   }
