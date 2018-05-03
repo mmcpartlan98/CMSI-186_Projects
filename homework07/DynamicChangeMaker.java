@@ -156,19 +156,17 @@ public class DynamicChangeMaker {
             remainder = remainder % cm.getDenominations().getElement(k);
             total = total + testTuple.getElement(k) * cm.getDenominations().getElement(k);
           }
+          // System.out.println("Total: " + total);
+          // System.out.println("J + 1: " + (j+1));
           if (total == j + 1) {
+            // System.out.println("Writing");
+            // System.out.println(testTuple.toString());
             cm._table[i][j] = testTuple;
           }
         }
         //System.out.print(cm._table[i][j].toString());
       }
       //System.out.println();
-    }
-    int smallest = 0;
-    for (int i = 0; i < cm.getDenominations().length(); i++) {
-      if (cm._table[i][cm.getChangeValue() - 1].total() < cm._table[smallest][cm.getChangeValue() - 1].total()) {
-        smallest = i;
-      }
     }
 
     for (int i = 0; i < cm.getDenominations().length(); i++) {
@@ -178,6 +176,22 @@ public class DynamicChangeMaker {
         }
       }
     }
+
+    int smallest = 0;
+    for (int i = 0; i < cm.getDenominations().length(); i++) {
+      if (cm._table[smallest][cm.getChangeValue() - 1].isImpossible()) {
+        if (smallest != cm.getDenominations().length() - 1) {
+          smallest++;
+        }
+      } else {
+        if (cm._table[i][cm.getChangeValue() - 1].total() < cm._table[smallest][cm.getChangeValue() - 1].total()) {
+          if (cm._table[i][cm.getChangeValue() - 1].isImpossible() == false) {
+            smallest = i;
+          }
+        }
+      }
+    }
+
     if (!cm._table[smallest][cm.getChangeValue() - 1].isImpossible()) {
       for (int i = 0; i < cm.getDenominations().length(); i++) {
         output.setElement(cm._indeces[i], cm._table[smallest][cm.getChangeValue() - 1].getElement(i));
@@ -229,10 +243,10 @@ public class DynamicChangeMaker {
   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   public static void main( String[] args ) {
     try {
-      int array1[] = {5, 10, 20, 50};
-      DynamicChangeMaker inputTest = new DynamicChangeMaker(array1, 99);
+      int array1[] = {17, 23, 121, 47, 3};
+      DynamicChangeMaker inputTest = new DynamicChangeMaker(array1, 13579);
       System.out.println(inputTest.toString());
-      System.out.println(inputTest.makeChangeWithDynamicProgramming(array1, 99).toString());
+      System.out.println(inputTest.makeChangeWithDynamicProgramming(array1, 13579).toString());
     } catch (Exception e) {
       e.printStackTrace();
       // System.out.println(e.getMessage());
